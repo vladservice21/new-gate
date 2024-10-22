@@ -30,4 +30,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/viewpdf/{id}', [ApiController::class, 'viewpdf'])->name('viewpdf');
+Route::get('/viewpdfcreate/{id}', [ApiController::class, 'viewpdfcreate'])->name('viewpdfcreate');
+
+Route::get('/test', [ApiController::class, 'test'])->name('test');
 require __DIR__.'/auth.php';

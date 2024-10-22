@@ -39,6 +39,93 @@
   width: 100%;
   height: 100%;
 }
+
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i&subset=cyrillic-ext');
+
+  @media print {
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .pf {
+      margin: 0px!important;
+    }
+
+    #pf1 {
+      /*width: 297mm;*/
+            /*height: 210mm;*/
+            box-sizing: border-box;
+            transform: scale(1.2); /* Отрегулируйте масштаб по необходимости */
+            transform-origin: top left;
+            overflow: hidden;
+            /* Каждый блок начинается с новой страницы */
+    }
+    #pf2{
+      /*width: 297mm;*/
+            /*height: 210mm;*/
+            box-sizing: border-box;
+            transform: scale(1.2); /* Отрегулируйте масштаб по необходимости */
+            transform-origin: top left;
+            overflow: hidden;
+            page-break-before: always; /* Каждый блок начинается с новой страницы */
+    }
+    #pf3 {
+      /*width: 297mm;*/
+            /*height: 210mm;*/
+            box-sizing: border-box;
+            transform: scale(0.9); /* Отрегулируйте масштаб по необходимости */
+            transform-origin: top left;
+            overflow: hidden;
+            page-break-before: always; /* Каждый блок начинается с новой страницы */
+    }
+    #pf4 {
+      /*width: 297mm;*/
+            /*height: 210mm;*/
+            box-sizing: border-box;
+            transform: scale(0.8); /* Отрегулируйте масштаб по необходимости */
+            transform-origin: top left;
+            overflow: hidden;
+            page-break-before: always; /* Каждый блок начинается с новой страницы */
+    }
+    #pf5 {
+      /*width: 297mm;*/
+            /*height: 210mm;*/
+            box-sizing: border-box;
+            transform: scale(1.2); /* Отрегулируйте масштаб по необходимости */
+            transform-origin: top left;
+            overflow: hidden;
+             /* Каждый блок начинается с новой страницы */
+    }
+    #pf6 {
+      /*width: 297mm;*/
+            /*height: 210mm;*/
+            box-sizing: border-box;
+            transform: scale(1.2); /* Отрегулируйте масштаб по необходимости */
+            transform-origin: top left;
+            overflow: hidden;
+            page-break-before: always; /* Каждый блок начинается с новой страницы */
+    }
+
+
+}
+
+  body {
+    padding: 0;
+    font-size: 12px;
+    font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+    font-style: italic;
+  }
+
+
+
+  svg text, svg tspan {
+    font-family: 'Roboto Condensed', sans-serif;
+  }
 </style>
 
 </head>
@@ -50,8 +137,17 @@
 
 {!! $html !!}
 
-<link rel=\'stylesheet\' href=\'{{ $document_root }}/bast_form.css\' type=\'text/css\' media=\'all\' />
+<link rel='stylesheet' href='https://drawing.holygrail.com.ua/bast_form.css' type='text/css' media='all' />
 <style>
+.watermark {
+  position: relative;
+  text-align: center;
+  top: 45%;
+  font-size: 80px;
+  /* transform-origin: top left; */
+  transform: rotate(338deg);
+  opacity: 20%;
+}
 .complect_wrapper *, .full_complect_wrapper * {
   font-family: \'Roboto\', sans-serif;
 }

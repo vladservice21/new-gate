@@ -55,11 +55,20 @@ class UserController extends Controller
         return view('admin.user.index', compact('users'));
     }
 
-    public function dashboard()
+    public function dashboard(Request $req)
     {
         $requests = (new ApiRequest)->newQuery();
 
         
+        if ($req->has('search') && !empty($req->post('search'))) {
+        $searchTerm = $req->post('search');
+        $requests->where('name', 'like', '%' . $searchTerm . '%');
+        }
+
+        //if ($req->has('search') && !empty($req->post('search'))) {
+        //$searchTerm = $req->post('search');
+        //$requests->where('google_file_link', 'like', '%' . $searchTerm . '%');
+        //}
 
         if (request()->query('sort')) {
             $attribute = request()->query('sort');
@@ -78,6 +87,26 @@ class UserController extends Controller
 
         return view('admin.dashboard', compact('requests'));
     }
+
+    public function dashboard_search(Request $request)
+    {
+        $query = (new ApiRequest)->newQuery();
+
+        
+
+        if ($request->has('search') && !empty($request->post('search'))) {
+        $searchTerm = $request->post('search');
+        $query->where('name', 'like', '%' . $searchTerm . '%'); // Фильтрация по имени
+        }
+
+        // Получение данных
+        //$requests = $query->get();
+    
+            $requests = $query->paginate(config('admin.paginate.per_page'))
+                ->onEachSide(config('admin.paginate.each_side'));
+    
+            return view('admin.dashboard', compact('requests'));
+        }
 
     /**
      * Show the form for creating a new resource.

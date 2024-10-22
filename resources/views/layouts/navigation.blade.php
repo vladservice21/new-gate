@@ -82,7 +82,7 @@
                     class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                     <li>
                         <a href="{{ route('profile.edit') }}" class="justify-between">
-                            {{ __('Profile') }}
+                            {{ __('Профіль') }}
                         </a>
                     </li>
                     <li>
@@ -92,7 +92,7 @@
 
                             <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                             this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Вийти') }}
                             </a>
                         </form>
                     </li>

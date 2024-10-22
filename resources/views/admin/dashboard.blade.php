@@ -1,6 +1,6 @@
 <x-admin.layout>
     <x-slot name="header">
-        {{ __('Dashboard') }}
+        {{ __('Панель') }}
     </x-slot>
 
     <!--<div class="py-12">
@@ -12,44 +12,55 @@
             </div>
         </div>
     </div>-->
-
+<form method="POST" action="{{ route('admin.dashboard') }}" style="width: 300px;">
+    @csrf
+            <div class="py-2">
+                <x-admin.form.input id="name" type="text" name="search" value="" style="padding: 5px; font-size: 12px; height: 2rem!important"/>
+            </div>
+            <div class="flex justify-start">
+                <x-admin.form.button class="btn-sm">Пошук</x-admin.form.button>
+            </div>
+</form>
     <div class="py-2">
         <div class="min-w-full  border-base-200 shadow overflow-x-auto">
-            <x-admin.grid.table>
+            <x-admin.grid.table style="width: 100%;">
                 <x-slot name="head">
                     <tr class="bg-base-200">
                         <x-admin.grid.th>
                             @include('admin.includes.sort-link', ['label' => 'Id', 'attribute' => 'id'])
                         </x-admin.grid.th>
-                        <x-admin.grid.th>
-                            @include('admin.includes.sort-link', ['label' => 'Created_at', 'attribute' => 'created_at'])
+                        <x-admin.grid.th style="min-width: 200px; max-width: 200px;">
+                            @include('admin.includes.sort-link', ['label' => 'Назва', 'attribute' => 'name'])
                         </x-admin.grid.th>
                         <x-admin.grid.th>
-                            @include('admin.includes.sort-link', ['label' => 'Counterweight_type', 'attribute' => 'counterweight_type'])
+                            Тип противаги
                         </x-admin.grid.th>
                         <x-admin.grid.th>
-                            @include('admin.includes.sort-link', ['label' => 'Material', 'attribute' => 'material'])
+                            Стовп
                         </x-admin.grid.th>
                         <x-admin.grid.th>
-                            @include('admin.includes.sort-link', ['label' => 'Gate_opening', 'attribute' => 'gate_opening'])
+                            Проріз воріт
                         </x-admin.grid.th>
                         <x-admin.grid.th>
-                            @include('admin.includes.sort-link', ['label' => 'Gate_height', 'attribute' => 'gate_height'])
+                            Висота воріт від землі
                         </x-admin.grid.th>
                         <x-admin.grid.th>
-                            @include('admin.includes.sort-link', ['label' => 'Clearance_under_gate', 'attribute' => 'clearance_under_gate'])
+                            Просвіт під воротами
                         </x-admin.grid.th>
                         <x-admin.grid.th>
-                            @include('admin.includes.sort-link', ['label' => 'Guide', 'attribute' => 'guide'])
+                            Напрямна
                         </x-admin.grid.th>
                         <x-admin.grid.th>
-                            @include('admin.includes.sort-link', ['label' => 'Total_length', 'attribute' => 'total_length'])
+                            Загальна довжина
                         </x-admin.grid.th>
                         <x-admin.grid.th>
-                            @include('admin.includes.sort-link', ['label' => 'Pages', 'attribute' => 'pages'])
+                            Сторінки
                         </x-admin.grid.th>
                         <x-admin.grid.th>
-                            @include('admin.includes.sort-link', ['label' => 'Pipe_angle', 'attribute' => 'pipe_angle'])
+                            Кут зарізування труб
+                        </x-admin.grid.th>
+                        <x-admin.grid.th>
+                            Каркас
                         </x-admin.grid.th>
                     </tr>
                 </x-slot>
@@ -58,22 +69,32 @@
                     <tr>
                         <x-admin.grid.td>
                             <div>
-                                <a href="{{route('viewpdf', $request->id)}}" class="no-underline hover:underline text-cyan-600">{{ $request->id }}</a>
+                                {{ $request->id }}
+                                <a href="{{route('viewpdf', $request->id)}}" class="no-underline hover:underline text-cyan-600">site</a>
+                                <a href="{{$request->google_file_link}}" class="no-underline hover:underline text-cyan-600">google</a>
                             </div>
                         </x-admin.grid.td>
                         <x-admin.grid.td>
                             <div>
-                                {{ $request->created_at }}
+                               {{ $request->name }} ( <small>{{ $request->created_at }}</small> )
                             </div>
                         </x-admin.grid.td>
                         <x-admin.grid.td>
                             <div>
-                                {{ $request->counterweight_type }}
+                                @if($request->counterweight_type == 'square')
+                                Квадратний
+                                @else
+                                Трикутний
+                                @endif
                             </div>
                         </x-admin.grid.td>
                         <x-admin.grid.td>
                             <div>
-                                {{ $request->material }}
+                                @if($request->material == 'brick')
+                                Цегла
+                                @else
+                                Труба
+                                @endif
                             </div>
                         </x-admin.grid.td>
                         <x-admin.grid.td>
@@ -111,6 +132,15 @@
                                 {{ $request->pipe_angle }}
                             </div>
                         </x-admin.grid.td>
+                        <x-admin.grid.td>
+                            <div>
+                                @if($request->frame == 'tprofile')
+                                Т-профіль
+                                @else
+                                Труба з металобази
+                                @endif
+                            </div>
+                        </x-admin.grid.td>
                     </tr>
                     @endforeach
                     @if($requests->isEmpty())
@@ -130,3 +160,7 @@
         </div>
     </div>
 </x-admin.layout>
+
+<style type="text/css">
+    th { font-size: 10px!important; }
+</style>

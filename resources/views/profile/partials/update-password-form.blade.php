@@ -1,7 +1,7 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900">Update Password</h2>
-        <p class="mt-1 text-sm text-gray-600">Ensure your account is using a long, random password to stay secure.</p>
+        <h2 class="text-lg font-medium text-gray-900">Оновити пароль</h2>
+        <p class="mt-1 text-sm text-gray-600">Переконайтеся, що ваш обліковий запис використовує довгий довільний пароль, щоб залишатися в безпеці.</p>
     </header>
 
     <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
@@ -27,7 +27,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>{{ __('Зберегти') }}</x-primary-button>
 
             @if (session('status') === 'password-updated')
                 <p

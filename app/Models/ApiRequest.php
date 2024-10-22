@@ -20,15 +20,21 @@ class ApiRequest extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'id',
+        'name',
         'counterweight_type',
         'material',
         'gate_opening',
         'gate_height',
+        'internal_frame_tubes_width',
+        'internal_frame_tubes_height',
         'clearance_under_gate',
         'guide',
         'total_length',
         'pages',
         'pipe_angle',
+        'frame',
+        'wicket',
+        'wicket_left',
         'created_at'
     ];
 }

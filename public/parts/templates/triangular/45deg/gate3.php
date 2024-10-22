@@ -6,6 +6,22 @@
   $image4 = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/parts/images/triangular/45deg/gate_images3/image4.svg");
   $image5 = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/parts/images/triangular/45deg/gate_images3/image5.svg");
   $image6 = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/parts/images/triangular/45deg/gate_images3/image6.svg");
+  $a1 = '';
+  $a2 = '';
+  $b2 = '';
+
+  if($wicket == 'on') {
+  $start_gate1 = 67;
+  $pillar1 = 155;
+  $image_width1 = 1048.08;
+  $result_left1 = $image_width1/$manual_a*$wicket_left+$start_gate1;
+
+  $start_gate2 = 102;
+  $pillar2 = 155;
+  $image_width2 = 990.18;
+  $result_left2 = $image_width2/$manual_a*$wicket_left+$start_gate2;
+  }
+
   if ($material == "brick") {
     $a3 = $gate_opening + 380;
   } else {
@@ -22,7 +38,12 @@
     $b1 = $b - 60;
   } else if ( $guide == "85x95" ) {
     $b1 = $b - 85;
+  } else if ( $guide == "72x80" ) {
+    $b1 = $b - 72;
   }
+
+  $b1_1 = $b1;
+
   $b4 = $gate_height + 20;
   $b5 = $gate_height;
   $c = $a3 - 140;
@@ -71,12 +92,295 @@
   $r1 = "<font style='color: red; font-weight: 700;'>" . $r1 . "</font>";
   $r2 = "<font style='color: red; font-weight: 700;'>" . $r2 . "</font>";
   ?>
+
+<?php if($wicket == 'on') { ?>
+<style type="text/css">
+.svg-container {
+    position: relative;
+    width: 100%!important; /* Задайте ширину контейнера */
+    height: 100%!important; /* Задайте высоту контейнера */
+}
+
+.svg-base {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.svg-overlay {
+    position: absolute;
+    top: 17.1%;
+    left: <?=$result_left1?>px;
+    width: 158.5px!important;
+    height: 290px!important;
+    z-index: 2;
+}
+
+.svg-line1 {
+	position: absolute;
+	background-color: gray;
+    top: 14.5641%;
+    left: <?=($result_left1+24)?>px;
+    width: 112.0px!important;
+    height: 1px!important;
+    z-index: 3;
+}
+
+.svg-line2 {
+	position: absolute;
+	background-color: gray;
+    top: 13.01%;
+    left: <?=($result_left1+24)?>px;
+    width: 1px!important;
+    height: 50px!important;
+    z-index: 3;
+}
+
+.svg-line3 {
+	position: absolute;
+	background-color: gray;
+    top: 13.01%;
+    left: <?=($result_left1+8+127)?>px;
+    width: 1px!important;
+    height: 50px!important;
+    z-index: 3;
+}
+
+.svg-text1 {
+	position: absolute;
+	background-color: transparent;
+	color: red;
+	font-weight: 700;
+    top: 12.71%;
+    left: <?=($result_left1+24)?>px;
+    width: 112.0px!important;
+    z-index: 3;
+    text-align: center;
+}
+
+.svg-line4 {
+	position: absolute;
+	background-color: gray;
+    top: 65.71%;
+    left: <?=($start_gate1)?>px;
+    width: <?=(($result_left1)-50)?>px!important;
+    height: 1px!important;
+    z-index: 3;
+}
+
+.svg-line5 {
+	position: absolute;
+	background-color: gray;
+    top: 50.71%;
+    left: <?=($start_gate1)?>px;
+    width: 1px!important;
+    height: 150px!important;
+    z-index: 3;
+}
+
+.svg-line6 {
+	position: absolute;
+	background-color: gray;
+    top: 50.71%;
+    left: <?=($result_left1+18)?>px;
+    width: 1px!important;
+    height: 150px!important;
+    z-index: 3;
+}
+
+.svg-text2 {
+	position: absolute;
+	background-color: transparent;
+	color: red;
+	font-weight: 700;
+    top: 63.71%;
+    left: <?=($start_gate1)?>px;
+    width: <?=(($result_left1)-50)?>px!important;
+    z-index: 3;
+    text-align: center;
+}
+</style>
+<style type="text/css">
+.svg-base2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.svg-overlay2 {
+    position: absolute;
+    top: 13.5%;
+    left: <?=$result_left2?>px;
+    width: 150.99px!important;
+    height: 261px!important;
+    z-index: 2;
+}
+
+.svg-line2_1 {
+	position: absolute;
+	background-color: gray;
+    top: 11.71%;
+    left: <?=($result_left2+22)?>px;
+    width: 107.0px!important;
+    height: 1px!important;
+    z-index: 3;
+}
+
+.svg-line2_2 {
+	position: absolute;
+	background-color: gray;
+    top: 10.01%;
+    left: <?=($result_left2+22)?>px;
+    width: 1px!important;
+    height: 50px!important;
+    z-index: 3;
+}
+
+.svg-line2_3 {
+	position: absolute;
+	background-color: gray;
+    top: 10.01%;
+    left: <?=($result_left2+5+123)?>px;
+    width: 1px!important;
+    height: 50px!important;
+    z-index: 3;
+}
+
+.svg-text2_1 {
+	position: absolute;
+	background-color: transparent;
+	color: red;
+	font-weight: 700;
+    top: 9.81%;
+    left: <?=($result_left2+22)?>px;
+    width: 107.0px!important;
+    z-index: 3;
+    text-align: center;
+}
+
+.svg-line2_4 {
+	position: absolute;
+	background-color: gray;
+    top: 58.71%;
+    left: <?=($start_gate2)?>px;
+    width: <?=(($result_left2)-85)?>px!important;
+    height: 1px!important;
+    z-index: 3;
+}
+
+.svg-line2_5 {
+	position: absolute;
+	background-color: gray;
+    top: 43.71%;
+    left: <?=($start_gate2)?>px;
+    width: 1px!important;
+    height: 160px!important;
+    z-index: 3;
+}
+
+.svg-line2_6 {
+	position: absolute;
+	background-color: gray;
+    top: 43.71%;
+    left: <?=($result_left2+17)?>px;
+    width: 1px!important;
+    height: 160px!important;
+    z-index: 3;
+}
+
+.svg-text2_2 {
+	position: absolute;
+	background-color: transparent;
+	color: red;
+	font-weight: 700;
+    top: 56.31%;
+    left: <?=($start_gate2)?>px;
+    width: <?=(($result_left2)-85)?>px!important;
+    z-index: 3;
+    text-align: center;
+}
+
+.svg-line2_7 {
+	position: absolute;
+    background-color: gray;
+    top: 44.2%;
+    left: 85px;
+    width: 100px !important;
+    height: 1px !important;
+    z-index: 3;
+}
+
+.svg-line2_8 {
+	position: absolute;
+    background-color: gray;
+    top: 14.1%;
+    left: 90px;
+    width: 1px !important;
+    height: 254px !important;
+    z-index: 3;
+}
+
+.svg-line2_9 {
+  position: absolute;
+    background-color: gray;
+    top: 14.1%;
+    left: 85px;
+    width: 100px !important;
+    height: 1px !important;
+    z-index: 3;
+}
+
+.svg-text2_3 {
+	position: absolute;
+    background-color: transparent;
+    text-align: center;
+    top: 14.1%;
+    left: 90px;
+    width: 1px !important;
+    height: 254px !important;
+    z-index: 3;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    color: red;
+    font-weight: 700;
+}
+</style>
+<?php } ?>
+
 <link rel='stylesheet' id='pdf-stylesheet-css' href='<?=$_SERVER['APP_URL']?>/parts/styles/triangular/45deg/gate3.css' type='text/css' media='all' />
 <div id="page-container">
   <?php if (strrpos($pages, "1")) : ?>
 	<div id="pf1" class="pf w0 h0" data-page-no="1">
+		<div class="watermark">novi-vorota.com.ua</div>
 		<div class="pc pc1 w0 h0">
+      <?php if($wicket == 'on') { ?>
+	<div class="svg-container">
+		<div class="svg-line1"></div>
+		<div class="svg-line2"></div>
+		<div class="svg-line3"></div>
+		<div class="svg-line4"></div>
+		<div class="svg-line5"></div>
+		<div class="svg-line6"></div>
+		<div class="svg-text1"><?=($wicket_width+15)?></div>
+		<div class="svg-text2"><?=($wicket_left)?></div>
+		<?php
+		$image1 = str_replace("<svg", "<svg class=\"svg-base\"", $image1);
+		echo $image1;
+		?>
+	<svg class="svg-overlay" width="175" height="303" viewBox="0 0 175 303" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<rect x="2" y="1" width="172" height="301" fill="white"/>
+		<path d="M143.986 301.719H31.64M143.986 301.719V294.79M143.986 301.719H149.397M31.64 301.719H26.2355M31.64 301.719V157.05M155.231 301.72V0.920013M20.4476 301.72L20.401 0.920044M26.2355 0.920044V301.719M20.401 0.920044L30.64 0.921936L149.397 0.920013M20.401 0.920044L1.68005 0.924225M149.397 0.920013H155.231M149.397 0.920013V7.58862M155.231 0.920013H161.066M149.397 7.58862V301.719M149.397 7.58862H143.986V14.39M149.397 7.58862L31.64 7.59M26.6375 7.59H31.64M26.2355 301.719H14.6132M149.397 301.719H161.066M143.986 152.12H31.64M143.986 152.12V14.39M143.986 152.12V157.05M31.64 294.79H143.986M143.986 294.79V157.05M143.986 157.05H31.64M31.64 152.12V14.39M31.64 152.12V157.05M143.986 14.39H31.64M31.64 14.39V7.59M174 12.3855H165.472M14.6132 301.719H10.2024M14.6132 301.719L14.5666 7.59M1.68005 301.719H10.2024M10.2024 301.719V296.787M1.68005 296.787H10.2024M10.2024 296.787L10.1799 157.05M14.5666 0.920044V7.59M10.1558 7.59H14.5666M10.1558 7.59H1.68005M10.1558 7.59L10.1791 152.12M10.1558 12.39H1.67999M174 0.920013H161.066M161.066 0.920013V301.719M161.066 301.719H165.472M165.472 301.719L165.48 296.787M165.472 301.719H174M165.468 296.787H165.48M165.48 296.787L174 296.787M165.48 296.787L165.476 157.05M165.472 7.58862H161.468M165.472 7.58862L165.472 12.3855M165.472 7.58862H174M165.472 12.3855L165.476 152.12M10.1791 152.12H1.67999M10.1791 152.12L10.1799 157.05M10.1799 157.05H1.68005M165.476 152.12H174M165.476 152.12L165.476 157.05M165.476 157.05H174" stroke="black" stroke-width="1.70133" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+	</svg>
+	</div>
+	<?php } else { ?>
       <?php echo $image1; ?>
+      <?php } ?>
 			<div class="t m0 x1 h2 y1 ff1 fs0 fc0 sc0 ls0 ws0">130</div>
 			<div class="t m1 x2 h2 y2 ff1 fs0 fc0 sc0 ls0 ws0">Відстан6ь між стовпами</div>
 			<div class="t m2 x3 h2 y3 ff1 fs0 fc0 sc0 ls0 ws0"><?php echo $b; ?></div>
@@ -136,6 +440,7 @@
 <?php endif;
 if (strrpos($pages, "2")) : ?>
 	<div id="pf2" class="pf w0 h0" data-page-no="2">
+		<div class="watermark">novi-vorota.com.ua</div>
 		<div class="pc pc2 w0 h0">
       <?php echo $image2; ?>
 			<div class="t m7 x26 h2 y35 ff2 fs0 fc0 sc0 ls0 ws0">95</div>
@@ -197,8 +502,36 @@ if (strrpos($pages, "2")) : ?>
 <?php endif;
 if (strrpos($pages, "3")) : ?>
 	<div id="pf3" class="pf w0 h0" data-page-no="3">
+		<div class="watermark">novi-vorota.com.ua</div>
 		<div class="pc pc3 w0 h0">
+      <?php if($wicket == 'on') { ?>
+	<div class="svg-container">
+		<div class="svg-line2_1"></div>
+		<div class="svg-line2_2"></div>
+		<div class="svg-line2_3"></div>
+		<div class="svg-line2_4"></div>
+		<div class="svg-line2_5"></div>
+		<div class="svg-line2_6"></div>
+		<div class="svg-line2_7"></div>
+		<div class="svg-line2_8"></div>
+    <div class="svg-line2_9"></div>
+		<div class="svg-text2_1"><?=($wicket_width+15)?></div>
+		<div class="svg-text2_2"><?=($wicket_left)?></div>
+		<div class="svg-text2_3"><?=($b1_1-100)?></div>
+		<?php
+		$image3 = str_replace("<svg", "<svg class=\"svg-base2\"", $image3);
+		echo $image3;
+		?>
+	<svg class="svg-overlay2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="375px" height="649px" viewBox="0 0 375 649" version="1.1">
+<g id="surface1">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;" d="M 4.285156 2.140625 L 372.855469 2.140625 L 372.855469 646.859375 L 4.285156 646.859375 Z M 4.285156 2.140625 "/>
+<path style="fill:none;stroke-width:1.70133;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 143.986719 301.719749 L 31.640365 301.719749 M 143.986719 301.719749 L 143.986719 294.789616 M 143.986719 301.719749 L 149.397135 301.719749 M 31.640365 301.719749 L 26.235417 301.719749 M 31.640365 301.719749 L 31.640365 157.049577 M 155.230469 301.719749 L 155.230469 0.919154 M 20.447656 301.719749 L 20.40026 0.919154 M 26.235417 0.919154 L 26.235417 301.719749 M 20.40026 0.919154 L 30.639583 0.922802 L 149.397135 0.919154 M 20.40026 0.919154 L 1.680729 0.924626 M 149.397135 0.919154 L 155.230469 0.919154 M 149.397135 0.919154 L 149.397135 7.588496 M 155.230469 0.919154 L 161.065625 0.919154 M 149.397135 7.588496 L 149.397135 301.719749 M 149.397135 7.588496 L 143.986719 7.588496 L 143.986719 14.389144 M 149.397135 7.588496 L 31.640365 7.590319 M 26.638281 7.590319 L 31.640365 7.590319 M 26.235417 301.719749 L 14.6125 301.719749 M 149.397135 301.719749 L 161.065625 301.719749 M 143.986719 152.120065 L 31.640365 152.120065 M 143.986719 152.120065 L 143.986719 14.389144 M 143.986719 152.120065 L 143.986719 157.049577 M 31.640365 294.789616 L 143.986719 294.789616 M 143.986719 294.789616 L 143.986719 157.049577 M 143.986719 157.049577 L 31.640365 157.049577 M 31.640365 152.120065 L 31.640365 14.389144 M 31.640365 152.120065 L 31.640365 157.049577 M 143.986719 14.389144 L 31.640365 14.389144 M 31.640365 14.389144 L 31.640365 7.590319 M 173.999219 12.384877 L 165.471615 12.384877 M 14.6125 301.719749 L 10.202865 301.719749 M 14.6125 301.719749 L 14.566927 7.590319 M 1.680729 301.719749 L 10.202865 301.719749 M 10.202865 301.719749 L 10.202865 296.786589 M 1.680729 296.786589 L 10.202865 296.786589 M 10.202865 296.786589 L 10.179167 157.049577 M 14.566927 0.919154 L 14.566927 7.590319 M 10.155469 7.590319 L 14.566927 7.590319 M 10.155469 7.590319 L 1.680729 7.590319 M 10.155469 7.590319 L 10.179167 152.120065 M 10.155469 12.390348 L 1.680729 12.390348 M 173.999219 0.919154 L 161.065625 0.919154 M 161.065625 0.919154 L 161.065625 301.719749 M 161.065625 301.719749 L 165.471615 301.719749 M 165.471615 301.719749 L 165.480729 296.786589 M 165.471615 301.719749 L 173.999219 301.719749 M 165.467969 296.786589 L 165.480729 296.786589 M 165.480729 296.786589 L 173.999219 296.786589 M 165.480729 296.786589 L 165.47526 157.049577 M 165.471615 7.588496 L 161.46849 7.588496 M 165.471615 7.588496 L 165.471615 12.384877 M 165.471615 7.588496 L 173.999219 7.588496 M 165.471615 12.384877 L 165.47526 152.120065 M 10.179167 152.120065 L 1.680729 152.120065 M 10.179167 152.120065 L 10.179167 157.049577 M 10.179167 157.049577 L 1.680729 157.049577 M 165.47526 152.120065 L 173.999219 152.120065 M 165.47526 152.120065 L 165.47526 157.049577 M 165.47526 157.049577 L 173.999219 157.049577 " transform="matrix(2.142857,0,0,2.141914,0,0)"/>
+</g>
+</svg>
+	</div>
+	<?php } else { ?>
       <?php echo $image3; ?>
+      <?php } ?>
 			<div class="t m2c x56 h2 y6d ff4 fs0 fc0 sc0 ls0 ws0"><?php echo $a3; ?></div>
 			<div class="t m2 x57 h2 y6e ff4 fs0 fc0 sc0 ls0 ws0"><?php echo $b; ?></div>
 			<div class="t m29 x58 h2 y6f ff4 fs0 fc0 sc0 ls0 ws0"><?php echo $c1; ?> <span class="_ _4"> </span> <?php echo $c1; ?> <span class="_ _5"> </span> <?php echo $c1; ?></div>
@@ -265,6 +598,7 @@ if (strrpos($pages, "3")) : ?>
 <?php endif;
 if (strrpos($pages, "4")) : ?>
 	<div id="pf4" class="pf w5 hc" data-page-no="4">
+		<div class="watermark">novi-vorota.com.ua</div>
 		<div class="pc pc4 w5 hc">
       <?php echo $image4; ?>
 			<div class="c x86 yaa w7 he">
@@ -345,6 +679,7 @@ if (strrpos($pages, "4")) : ?>
 <?php endif;
 if (strrpos($pages, "5")) : ?>
 	<div id="pf5" class="pf w0 h0" data-page-no="5">
+		<div class="watermark">novi-vorota.com.ua</div>
 		<div class="pc pc5 w0 h0">
       <?php echo $image5; ?>
 			<div class="t m2 x1d h2 yf3 ff8 fs0 fc0 sc0 ls0 ws0">(**)</div>
@@ -420,6 +755,7 @@ if (strrpos($pages, "5")) : ?>
 <?php endif;
 if (strrpos($pages, "6")) : ?>
 	<div id="pf6" class="pf w0 h0" data-page-no="6">
+		<div class="watermark">novi-vorota.com.ua</div>
 		<div class="pc pc6 w0 h0">
       <?php echo $image6; ?>
 			<div class="t m23 xcf h4 y13a ffa fs2 fc1 sc0 ls0 ws0">МЕСТНЫЙ J</div>

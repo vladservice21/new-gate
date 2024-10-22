@@ -7,7 +7,10 @@ Route::group([
     'as' => 'admin.',
 ], function () {
     Route::get('/', 'UserController@dashboard')->name('dashboard');
+    Route::post('/', 'UserController@dashboard')->name('dashboard');
+    Route::post('dashboard_search', 'UserController@dashboard_search')->name('dashboard_search');
     Route::resource('user', 'UserController');
+    Route::resource('form_calc', 'CalcController');
     Route::resource('role', 'RoleController');
     Route::resource('permission', 'PermissionController');
     Route::resource('menu', 'MenuController')->except([
