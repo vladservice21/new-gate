@@ -99,51 +99,51 @@ class CalcController extends Controller
     public function uploadToDrive($url, $name, $id, $pages) {
 //        $url = $request->query('url');
 
-        if (!$url || !filter_var($url, FILTER_VALIDATE_URL)) {
-            return response()->json(['error' => 'error URL'], 400);
-        }
-
-        try {
-            $filename = Str::uuid() . '.pdf';
-            $filepath = storage_path('app/public/pdfs/' . $filename);
-
-            if (!Storage::exists('public/pdfs')) {
-                Storage::makeDirectory('public/pdfs');
-            }
-
-            try {
-                $params = $this->apiController->generateParametrPdf($id);
-                $view = view('pdf', [
-                    'html' => $params,
-                    'document_root' => $_SERVER['DOCUMENT_ROOT'],
-                    'app_url' => $_SERVER['APP_URL']
-                ])->render();
-//                $chromePath = '/usr/bin/google-chrome';
-
-                Browsershot::html($view)
-                    ->format('A4')
-//                    ->chromeExecutable($chromePath)
-                    ->save($filepath);
-//                Browsershot::html($view)->format('A4')->save($filepath);
-//                SnappyPdf::loadHTML($view)->setPaper('a4')->save($filepath);
-//                $pdf = Pdf::loadView('pdf', [
+//        if (!$url || !filter_var($url, FILTER_VALIDATE_URL)) {
+//            return response()->json(['error' => 'error URL'], 400);
+//        }
+//
+//        try {
+//            $filename = Str::uuid() . '.pdf';
+//            $filepath = storage_path('app/public/pdfs/' . $filename);
+//
+//            if (!Storage::exists('public/pdfs')) {
+//                Storage::makeDirectory('public/pdfs');
+//            }
+//
+//            try {
+//                $params = $this->apiController->generateParametrPdf($id);
+//                $view = view('pdf', [
 //                    'html' => $params,
 //                    'document_root' => $_SERVER['DOCUMENT_ROOT'],
 //                    'app_url' => $_SERVER['APP_URL']
-//                ]);
+//                ])->render();
+////                $chromePath = '/usr/bin/google-chrome';
 //
-//                return $pdf->stream('filename.pdf');
-            } catch (\Exception $e) {
-                dd($e->getMessage());
-            }
-
-            $pdfUrl = asset('storage/pdfs/' . $filename);
-
-            return $pdfUrl;
-        }catch (\Exception $e) {
-            dd($e->getMessage());
-        }
-//        $create_pdf = json_decode(file_get_contents("http://drawing-vorota.shop:3000/?url=".$url), true);
+//                Browsershot::html($view)
+//                    ->format('A4')
+////                    ->chromeExecutable($chromePath)
+//                    ->save($filepath);
+////                Browsershot::html($view)->format('A4')->save($filepath);
+////                SnappyPdf::loadHTML($view)->setPaper('a4')->save($filepath);
+////                $pdf = Pdf::loadView('pdf', [
+////                    'html' => $params,
+////                    'document_root' => $_SERVER['DOCUMENT_ROOT'],
+////                    'app_url' => $_SERVER['APP_URL']
+////                ]);
+////
+////                return $pdf->stream('filename.pdf');
+//            } catch (\Exception $e) {
+//                dd($e->getMessage());
+//            }
+//
+//            $pdfUrl = asset('storage/pdfs/' . $filename);
+//
+//            return $pdfUrl;
+//        }catch (\Exception $e) {
+//            dd($e->getMessage());
+//        }
+        $create_pdf = json_decode(file_get_contents("http://drawing-vorota.shop:3000/?url=".$url), true);
 
         $client = new Client();
         $client->setAuthConfig(env('GOOGLE_APPLICATION_CREDENTIALS'));
@@ -159,7 +159,7 @@ class CalcController extends Controller
             'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')]
         ]);
 
-        $content = file_get_contents($pdfUrl);
+        $content = file_get_contents($create_pdf);
 
         $file = $service->files->create($fileMetadata, [
             'data' => $content,
