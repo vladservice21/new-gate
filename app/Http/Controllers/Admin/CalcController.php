@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
@@ -12,6 +14,7 @@ use BalajiDharma\LaravelAdminCore\Requests\StoreUserRequest;
 use BalajiDharma\LaravelAdminCore\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
@@ -19,15 +22,20 @@ use Illuminate\Support\Facades\Storage;
 
 use Google\Client;
 use Google\Service\Drive;
-
+use Spatie\Browsershot\Browsershot;
+//use Barryvdh\DomPDF\Facade\Pdf;
+//use TCPDF;
+//use Mpdf\Mpdf;
 class CalcController extends Controller
 {
-    public function __construct()
+    protected $apiController;
+    public function __construct(ApiController $apiController)
     {
         $this->middleware('can:user list', ['only' => ['index', 'show']]);
         $this->middleware('can:user create', ['only' => ['create', 'store']]);
         $this->middleware('can:user edit', ['only' => ['edit', 'update']]);
         $this->middleware('can:user delete', ['only' => ['destroy']]);
+        $this->apiController = $apiController;
     }
 
     /**
@@ -68,9 +76,9 @@ class CalcController extends Controller
 
         foreach ($params as $key => $value) {
             if($key != 'wicket' && $key != 'wicket_left' && $key != 'wicket_width') {
-            if(empty($value)) {
-                $invalid_value .= $key.',';
-            }
+                if(empty($value)) {
+                    $invalid_value .= $key.',';
+                }
             }
         }
 
@@ -80,33 +88,79 @@ class CalcController extends Controller
             return redirect()->route('admin.form_calc.index')->with('error', $status);
         } else {
 
-        //DB::table('api_requests')->insert($params);
-        $id = DB::table('api_requests')->insertGetId($params,'id');
-        $file_link = $this->uploadToDrive(route('viewpdf', $id), $params['name'], $id);
-        $status = 'Розрахунок створено. <a href="'.$file_link.'" target="_blank">'.$file_link.'</a>';
-        return redirect()->route('admin.form_calc.index')->with('message', $status);
+            //DB::table('api_requests')->insert($params);
+            $id = DB::table('api_requests')->insertGetId($params,'id');
+            $file_link = $this->uploadToDrive(route('viewpdf', $id), $params['name'], $id, $request->post('pages'));
+            $status = 'Розрахунок створено. <a href="'.$file_link.'" target="_blank">'.$file_link.'</a>';
+            return redirect()->route('admin.form_calc.index')->with('message', $status);
         }
     }
 
-    public function uploadToDrive($url, $name, $id) {
-        $create_pdf = json_decode(file_get_contents("http://drawing-vorota.shop:3000/?url=".$url), true);
+    public function uploadToDrive($url, $name, $id, $pages) {
+//        $url = $request->query('url');
+
+        if (!$url || !filter_var($url, FILTER_VALIDATE_URL)) {
+            return response()->json(['error' => 'error URL'], 400);
+        }
+
+        try {
+            $filename = Str::uuid() . '.pdf';
+            $filepath = storage_path('app/public/pdfs/' . $filename);
+
+            if (!Storage::exists('public/pdfs')) {
+                Storage::makeDirectory('public/pdfs');
+            }
+
+            try {
+                $params = $this->apiController->generateParametrPdf($id);
+                $view = view('pdf', [
+                    'html' => $params,
+                    'document_root' => $_SERVER['DOCUMENT_ROOT'],
+                    'app_url' => $_SERVER['APP_URL']
+                ])->render();
+                $chromePath = '/usr/bin/google-chrome';
+
+                Browsershot::html($view)
+                    ->format('A4')
+                    ->chromeExecutable($chromePath)
+                    ->save($filepath);
+//                Browsershot::html($view)->format('A4')->save($filepath);
+//                SnappyPdf::loadHTML($view)->setPaper('a4')->save($filepath);
+//                $pdf = Pdf::loadView('pdf', [
+//                    'html' => $params,
+//                    'document_root' => $_SERVER['DOCUMENT_ROOT'],
+//                    'app_url' => $_SERVER['APP_URL']
+//                ]);
+//
+//                return $pdf->stream('filename.pdf');
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+            }
+
+            $pdfUrl = asset('storage/pdfs/' . $filename);
+
+            return $pdfUrl;
+        }catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+//        $create_pdf = json_decode(file_get_contents("http://drawing-vorota.shop:3000/?url=".$url), true);
 
         $client = new Client();
         $client->setAuthConfig(env('GOOGLE_APPLICATION_CREDENTIALS'));
         $client->addScope(Drive::DRIVE_FILE);
-        
+
         // Создание сервиса Google Drive
         $service = new Drive($client);
-        
+
         // Пример загрузки файла
         $fileMetadata = new Drive\DriveFile([
             'name' => $name,
             'mimeType' => 'application/pdf',
             'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')]
         ]);
-        
-        $content = file_get_contents($create_pdf['url']);
-        
+
+        $content = file_get_contents($pdfUrl);
+
         $file = $service->files->create($fileMetadata, [
             'data' => $content,
             'mimeType' => 'application/pdf',
@@ -117,10 +171,10 @@ class CalcController extends Controller
         $fileId = $file->id;
         $fileLink = "https://drive.google.com/file/d/{$fileId}/view?usp=sharing";
         DB::table('api_requests')
-        ->where('id', $id)
-        ->update(['google_file_link' => $fileLink]);
+            ->where('id', $id)
+            ->update(['google_file_link' => $fileLink]);
         return $fileLink;
     }
 
-    
+
 }
