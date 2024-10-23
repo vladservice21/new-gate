@@ -118,11 +118,11 @@ class CalcController extends Controller
                     'document_root' => $_SERVER['DOCUMENT_ROOT'],
                     'app_url' => $_SERVER['APP_URL']
                 ])->render();
-                $chromePath = '/usr/bin/google-chrome';
+//                $chromePath = '/usr/bin/google-chrome';
 
                 Browsershot::html($view)
                     ->format('A4')
-                    ->chromeExecutable($chromePath)
+//                    ->chromeExecutable($chromePath)
                     ->save($filepath);
 //                Browsershot::html($view)->format('A4')->save($filepath);
 //                SnappyPdf::loadHTML($view)->setPaper('a4')->save($filepath);
