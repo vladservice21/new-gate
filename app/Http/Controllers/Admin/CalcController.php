@@ -119,7 +119,7 @@ class CalcController extends Controller
 
                 Browsershot::html($view)
                     ->noSandbox()
-                    ->setChromePath($chromePath)
+//                    ->setChromePath($chromePath)
                     ->timeout(60000)
                     ->format('A4')
                     ->save($filepath);
@@ -128,13 +128,14 @@ class CalcController extends Controller
                 return response()->json(['error' => 'Error create url'], 400);
             }
 
-            $pdfUrl = asset('/storage/pdfs/' . $filename);
+            $pdfUrl = '/storage/pdfs/' . $filename;
 
         }catch (\Exception $e) {
             Log::alert( 'Error create url' . $e->getMessage());
             return response()->json(['error' => 'Error create url' . $e->getMessage()], 400);
         }
 //        $create_pdf = json_decode(file_get_contents("http://drawing-vorota.shop:3000/?url=".$url), true);
+        $content = file_get_contents($filepath);
 
         $client = new Client();
         $client->setAuthConfig(env('GOOGLE_APPLICATION_CREDENTIALS'));
@@ -150,7 +151,6 @@ class CalcController extends Controller
             'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')]
         ]);
 
-        $content = file_get_contents($pdfUrl);
 
         $file = $service->files->create($fileMetadata, [
             'data' => $content,
