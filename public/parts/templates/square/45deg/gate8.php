@@ -6,6 +6,7 @@
   $image4 = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/parts/images/square/45deg/gate_images8/image4.svg");
   $image5 = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/parts/images/square/45deg/gate_images8/image5.svg");
   $image6 = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/parts/images/square/45deg/gate_images8/image6.svg");
+  $css    = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/parts/styles/square/45deg/gate8.css");
   if($wicket == 'on') {
   $start_gate1 = 52;
   $pillar1 = 155;
@@ -339,7 +340,10 @@
 </style>
 <?php } ?>
 
-<link rel='stylesheet' id='pdf-stylesheet-css' href='/parts/styles/square/45deg/gate8.css' type='text/css' media='all' />
+<style type="text/css">
+    <?php echo $css; ?>
+</style>
+<!--<link rel='stylesheet' id='pdf-stylesheet-css' href='--><?php //=$_SERVER['APP_URL']?><!--/parts/styles/square/45deg/gate8.css' type='text/css' media='all' />-->
 <div id="page-container">
   <?php if (strrpos($pages, "1")) : ?>
 	<div id="pf1" class="pf w0 h0" data-page-no="1">
@@ -570,7 +574,7 @@ if (strrpos($pages, "3")) : ?>
 	</div>
 <?php endif;
 if (strrpos($pages, "4")) : ?>
-	<div id="pf4" class="pf w6 h10" data-page-no="4">
+	<div id="pf4" class="pf w6 h10" data-page-no="4" style="transform: rotate(90deg) scale(1.1) translate(0, -5%); transform-origin: center;">
 		<div class="watermark">novi-vorota.com.ua</div>
 		<div class="pc pc4 w6 h10">
       <?php echo $image4; ?>

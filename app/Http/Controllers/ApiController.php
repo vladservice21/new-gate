@@ -59,78 +59,81 @@ class ApiController extends Controller
     	}
     }
 
-    public function viewpdf($id) {
-    	$params = (array)DB::table('api_requests')->where('id', $id)->first();
-    	//$params = json_decode($params, true);
-    	////////////////
-    	$counterweight_type = $params["counterweight_type"];
-		$material = $params["material"];
-		$gate_opening = intval($params["gate_opening"]);
-		$gate_height = $params["gate_height"];
-		$clearance_under_gate = $params["clearance_under_gate"];
-		//$set_count_seven = $params["set_count_seven"];
-		$guide = $params["guide"];
-		$manual_a = $params["total_length"];
-		$pages = $params["pages"];
-		$pages = "00" . $pages;
-		$pipe_angle = $params["pipe_angle"];
+    public function generateParametrPdf($id) {
+        $params = (array)DB::table('api_requests')->where('id', $id)->first();
+        //$params = json_decode($params, true);
+        ////////////////
+        $counterweight_type = $params["counterweight_type"];
+        $material = $params["material"];
+        $gate_opening = intval($params["gate_opening"]);
+        $gate_height = $params["gate_height"];
+        $clearance_under_gate = $params["clearance_under_gate"];
+        //$set_count_seven = $params["set_count_seven"];
+        $guide = $params["guide"];
+        $manual_a = $params["total_length"];
+        $pages = $params["pages"];
+        $pages = "00" . $pages;
+        $pipe_angle = $params["pipe_angle"];
         $wicket = $params['wicket'];
         $wicket_left = $params['wicket_left'];
         $wicket_width = $params['wicket_width'];
-		
-		$gate_num_triang = 0;
-		$gate_num_square = 0;
-		
-		if ($gate_opening < 3500) {
-		  $gate_num_triang = 1;
-		} else if ($gate_opening > 3499 && $gate_opening < 4300) {
-		  $gate_num_triang = 2;
-		} else if ($gate_opening > 4299 && $gate_opening < 5000) {
-		  $gate_num_triang = 3;
-		} else if ($gate_opening > 4999 && $gate_opening < 5700) {
-		  $gate_num_triang = 4;
-		} else if ($gate_opening > 5699 && $gate_opening <= 6400) {
-		  $gate_num_triang = 5;
-		}
-		
-		if ($gate_opening < 3500) {
-		  $gate_num_square = 1;
-		} else if ($gate_opening > 3499 && $gate_opening < 4100) {
-		  $gate_num_square = 2;
-		} else if ($gate_opening > 4099 && $gate_opening < 4700) {
-		  $gate_num_square = 3;
-		} else if ($gate_opening > 4699 && $gate_opening < 5300) {
-		  $gate_num_square = 4;
-		} else if ($gate_opening > 5299 && $gate_opening < 5900) {
-		  $gate_num_square = 5;
-		} else if ($gate_opening > 5899 && $gate_opening < 6500) {
-		  $gate_num_square = 6;
-		} else if ($gate_opening > 6499 && $gate_opening < 7100) {
-		  $gate_num_square = 7;
-		} else if ($gate_opening > 7099 && $gate_opening < 7700) {
-		  $gate_num_square = 8;
-		} else if ($gate_opening > 7699 && $gate_opening <= 8300) {
-		  $gate_num_square = 9;
-		}
-		//ob_start();
-		$result = '';
-		if ($counterweight_type == "square") {
-  			if ( $pipe_angle == 45 ) {
-  			  $result = $this->include_file($_SERVER['DOCUMENT_ROOT'] . "/parts/templates/square/45deg/gate" . $gate_num_square .".php", $counterweight_type, $material, $gate_opening, $gate_height, $clearance_under_gate, $guide, $manual_a, $pages, $pipe_angle, $gate_num_triang, $gate_num_square, $wicket, $wicket_left, $wicket_width);
-  			} else if ( $pipe_angle == 90 ) {
-  			  $result = $this->include_file($_SERVER['DOCUMENT_ROOT'] . "/parts/templates/square/90deg/gate" . $gate_num_square .".php", $counterweight_type, $material, $gate_opening, $gate_height, $clearance_under_gate, $guide, $manual_a, $pages, $pipe_angle, $gate_num_triang, $gate_num_square, $wicket, $wicket_left, $wicket_width);
-  			}
-		} else {
-  			if ( $pipe_angle == 45 ) {
-  			  $result = $this->include_file($_SERVER['DOCUMENT_ROOT'] . "/parts/templates/triangular/45deg/gate" . $gate_num_triang .".php", $counterweight_type, $material, $gate_opening, $gate_height, $clearance_under_gate, $guide, $manual_a, $pages, $pipe_angle, $gate_num_triang, $gate_num_square, $wicket, $wicket_left, $wicket_width);
-  			} else if ( $pipe_angle == 90 ) {
-  			  $result = $this->include_file($_SERVER['DOCUMENT_ROOT'] . "/parts/templates/triangular/90deg/gate" . $gate_num_triang .".php", $counterweight_type, $material, $gate_opening, $gate_height, $clearance_under_gate, $guide, $manual_a, $pages, $pipe_angle, $gate_num_triang, $gate_num_square, $wicket, $wicket_left, $wicket_width);
-  			}
-		}
-		
+
+        $gate_num_triang = 0;
+        $gate_num_square = 0;
+
+        if ($gate_opening < 3500) {
+            $gate_num_triang = 1;
+        } else if ($gate_opening > 3499 && $gate_opening < 4300) {
+            $gate_num_triang = 2;
+        } else if ($gate_opening > 4299 && $gate_opening < 5000) {
+            $gate_num_triang = 3;
+        } else if ($gate_opening > 4999 && $gate_opening < 5700) {
+            $gate_num_triang = 4;
+        } else if ($gate_opening > 5699 && $gate_opening <= 6400) {
+            $gate_num_triang = 5;
+        }
+
+        if ($gate_opening < 3500) {
+            $gate_num_square = 1;
+        } else if ($gate_opening > 3499 && $gate_opening < 4100) {
+            $gate_num_square = 2;
+        } else if ($gate_opening > 4099 && $gate_opening < 4700) {
+            $gate_num_square = 3;
+        } else if ($gate_opening > 4699 && $gate_opening < 5300) {
+            $gate_num_square = 4;
+        } else if ($gate_opening > 5299 && $gate_opening < 5900) {
+            $gate_num_square = 5;
+        } else if ($gate_opening > 5899 && $gate_opening < 6500) {
+            $gate_num_square = 6;
+        } else if ($gate_opening > 6499 && $gate_opening < 7100) {
+            $gate_num_square = 7;
+        } else if ($gate_opening > 7099 && $gate_opening < 7700) {
+            $gate_num_square = 8;
+        } else if ($gate_opening > 7699 && $gate_opening <= 8300) {
+            $gate_num_square = 9;
+        }
+        //ob_start();
+        $result = '';
+        if ($counterweight_type == "square") {
+            if ( $pipe_angle == 45 ) {
+                $result = $this->include_file($_SERVER['DOCUMENT_ROOT'] . "/parts/templates/square/45deg/gate" . $gate_num_square .".php", $counterweight_type, $material, $gate_opening, $gate_height, $clearance_under_gate, $guide, $manual_a, $pages, $pipe_angle, $gate_num_triang, $gate_num_square, $wicket, $wicket_left, $wicket_width);
+            } else if ( $pipe_angle == 90 ) {
+                $result = $this->include_file($_SERVER['DOCUMENT_ROOT'] . "/parts/templates/square/90deg/gate" . $gate_num_square .".php", $counterweight_type, $material, $gate_opening, $gate_height, $clearance_under_gate, $guide, $manual_a, $pages, $pipe_angle, $gate_num_triang, $gate_num_square, $wicket, $wicket_left, $wicket_width);
+            }
+        } else {
+            if ( $pipe_angle == 45 ) {
+                $result = $this->include_file($_SERVER['DOCUMENT_ROOT'] . "/parts/templates/triangular/45deg/gate" . $gate_num_triang .".php", $counterweight_type, $material, $gate_opening, $gate_height, $clearance_under_gate, $guide, $manual_a, $pages, $pipe_angle, $gate_num_triang, $gate_num_square, $wicket, $wicket_left, $wicket_width);
+            } else if ( $pipe_angle == 90 ) {
+                $result = $this->include_file($_SERVER['DOCUMENT_ROOT'] . "/parts/templates/triangular/90deg/gate" . $gate_num_triang .".php", $counterweight_type, $material, $gate_opening, $gate_height, $clearance_under_gate, $guide, $manual_a, $pages, $pipe_angle, $gate_num_triang, $gate_num_square, $wicket, $wicket_left, $wicket_width);
+            }
+        }
+        return $result;
+    }
+    public function viewpdf($id) {
+
 		//file_put_contents("1.html", $html_result);
 		return response()->view('pdf', [
-    				'html' => $result,
+    				'html' => self::generateParametrPdf($id),
     				'document_root' => $_SERVER['DOCUMENT_ROOT'],
     				'app_url' => $_SERVER['APP_URL'],
 					]);
@@ -155,10 +158,10 @@ class ApiController extends Controller
         $wicket = $params['wicket'];
         $wicket_left = $params['wicket_left'];
         $wicket_width = $params['wicket_width'];
-        
+
         $gate_num_triang = 0;
         $gate_num_square = 0;
-        
+
         if ($gate_opening < 3500) {
           $gate_num_triang = 1;
         } else if ($gate_opening > 3499 && $gate_opening < 4300) {
@@ -170,7 +173,7 @@ class ApiController extends Controller
         } else if ($gate_opening > 5699 && $gate_opening <= 6400) {
           $gate_num_triang = 5;
         }
-        
+
         if ($gate_opening < 3500) {
           $gate_num_square = 1;
         } else if ($gate_opening > 3499 && $gate_opening < 4100) {
@@ -205,7 +208,7 @@ class ApiController extends Controller
               $result = $this->include_file($_SERVER['DOCUMENT_ROOT'] . "/parts/templates/triangular/90deg/gate" . $gate_num_triang .".php", $counterweight_type, $material, $gate_opening, $gate_height, $clearance_under_gate, $guide, $manual_a, $pages, $pipe_angle, $gate_num_triang, $gate_num_square, $wicket, $wicket_left, $wicket_width);
             }
         }
-        
+
         //file_put_contents("1.html", $html_result);
         /*return response()->view('pdf_create', [
                     'html' => $result,
@@ -219,7 +222,7 @@ class ApiController extends Controller
                     ]);
 	return $pdf->download('pdf.pdf');
 
-        
+
         //return $result;
     }
 

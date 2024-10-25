@@ -6,6 +6,7 @@
   $image4 = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/parts/images/square/45deg/gate_images9/image4.svg");
   $image5 = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/parts/images/square/45deg/gate_images9/image5.svg");
   $image6 = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/parts/images/square/45deg/gate_images9/image6.svg");
+  $css    = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/parts/styles/square/45deg/gate9.css");
   if($wicket == 'on') {
   $start_gate1 = 47;
   $pillar1 = 155;
@@ -338,8 +339,10 @@
 }
 </style>
 <?php } ?>
-
-<link rel='stylesheet' id='pdf-stylesheet-css' href='/parts/styles/square/45deg/gate9.css' type='text/css' media='all' />
+<style type="text/css">
+    <?php echo $css; ?>
+</style>
+<!--<link rel='stylesheet' id='pdf-stylesheet-css' href='--><?php //=$_SERVER['APP_URL']?><!--/parts/styles/square/45deg/gate9.css' type='text/css' media='all' />-->
 <div id="page-container">
 <?php if (strrpos($pages, "1")) : ?>
 	<div id="pf1" class="pf w0 h0" data-page-no="1">

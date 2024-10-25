@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
@@ -12,6 +14,7 @@ use BalajiDharma\LaravelAdminCore\Requests\StoreUserRequest;
 use BalajiDharma\LaravelAdminCore\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
@@ -19,15 +22,17 @@ use Illuminate\Support\Facades\Storage;
 
 use Google\Client;
 use Google\Service\Drive;
-
+use Spatie\Browsershot\Browsershot;
 class CalcController extends Controller
 {
-    public function __construct()
+    protected $apiController;
+    public function __construct(ApiController $apiController)
     {
         $this->middleware('can:user list', ['only' => ['index', 'show']]);
         $this->middleware('can:user create', ['only' => ['create', 'store']]);
         $this->middleware('can:user edit', ['only' => ['edit', 'update']]);
         $this->middleware('can:user delete', ['only' => ['destroy']]);
+        $this->apiController = $apiController;
     }
 
     /**
@@ -89,24 +94,64 @@ class CalcController extends Controller
     }
 
     public function uploadToDrive($url, $name, $id) {
-        $create_pdf = json_decode(file_get_contents("http://drawing-vorota.shop:3000/?url=".$url), true);
+//        $url = $request->query('url');
+
+        if (!$url || !filter_var($url, FILTER_VALIDATE_URL)) {
+            return response()->json(['error' => 'error URL'], 400);
+        }
+
+        try {
+            $filename = Str::uuid() . '.pdf';
+            $filepath = storage_path('app/public/pdfs/' . $filename);
+
+            if (!Storage::exists('app/public/pdfs')) {
+                Storage::makeDirectory('app/public/pdfs');
+            }
+
+            try {
+                $params = $this->apiController->generateParametrPdf($id);
+                $view = view('pdf', [
+                    'html' => $params,
+                    'document_root' => $_SERVER['DOCUMENT_ROOT'],
+                    'app_url' => $_SERVER['APP_URL']
+                ])->render();
+                $chromePath = '/usr/bin/google-chrome';
+
+                Browsershot::html($view)
+                    ->noSandbox()
+                    ->setChromePath($chromePath)
+                    ->timeout(60000)
+                    ->format('A4')
+                    ->save($filepath);
+
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Error create url'], 400);
+            }
+
+            $pdfUrl = asset('/storage/pdfs/' . $filename);
+
+        }catch (\Exception $e) {
+            Log::alert( 'Error create url' . $e->getMessage());
+            return response()->json(['error' => 'Error create url' . $e->getMessage()], 400);
+        }
+//        $create_pdf = json_decode(file_get_contents("http://drawing-vorota.shop:3000/?url=".$url), true);
 
         $client = new Client();
         $client->setAuthConfig(env('GOOGLE_APPLICATION_CREDENTIALS'));
         $client->addScope(Drive::DRIVE_FILE);
-        
+
         // Создание сервиса Google Drive
         $service = new Drive($client);
-        
+
         // Пример загрузки файла
         $fileMetadata = new Drive\DriveFile([
             'name' => $name,
             'mimeType' => 'application/pdf',
             'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')]
         ]);
-        
-        $content = file_get_contents($create_pdf['url']);
-        
+
+        $content = file_get_contents($pdfUrl);
+
         $file = $service->files->create($fileMetadata, [
             'data' => $content,
             'mimeType' => 'application/pdf',
@@ -122,5 +167,5 @@ class CalcController extends Controller
         return $fileLink;
     }
 
-    
+
 }
