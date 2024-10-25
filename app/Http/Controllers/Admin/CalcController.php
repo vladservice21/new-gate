@@ -119,7 +119,7 @@ class CalcController extends Controller
 
                 Browsershot::html($view)
                     ->noSandbox()
-//                    ->setChromePath($chromePath)
+                    ->setChromePath($chromePath)
                     ->timeout(60000)
                     ->format('A4')
                     ->save($filepath);
