@@ -16,7 +16,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class ApiController extends Controller
 {
-	public function request(Request $request)
+    public function request(Request $request)
     {
 
     	$params = array(
@@ -216,11 +216,11 @@ class ApiController extends Controller
                     'app_url' => $_SERVER['APP_URL'],
                     ]);*/
         $pdf = PDF::loadView('pdf_create', [
-                    'html' => $result,
-                    'document_root' => $_SERVER['DOCUMENT_ROOT'],
-                    'app_url' => $_SERVER['APP_URL'],
-                    ]);
-	return $pdf->download('pdf.pdf');
+            'html' => $result,
+            'document_root' => $_SERVER['DOCUMENT_ROOT'],
+            'app_url' => $_SERVER['APP_URL'],
+        ]);
+        return $pdf->download('pdf.pdf');
 
 
         //return $result;
