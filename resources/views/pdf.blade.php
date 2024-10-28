@@ -60,8 +60,8 @@
       /*width: 297mm;*/
             /*height: 210mm;*/
             box-sizing: border-box;
-            transform: scale(1.2); /* Отрегулируйте масштаб по необходимости */
-            transform-origin: top left;
+            transform: scale(1.4); /* Отрегулируйте масштаб по необходимости */
+            transform-origin: 35% 1%;
             overflow: hidden;
             /* Каждый блок начинается с новой страницы */
     }
@@ -69,8 +69,8 @@
       /*width: 297mm;*/
             /*height: 210mm;*/
             box-sizing: border-box;
-            transform: scale(1.2); /* Отрегулируйте масштаб по необходимости */
-            transform-origin: top left;
+            transform: scale(1.4); /* Отрегулируйте масштаб по необходимости */
+            transform-origin: 35% 1%;
             overflow: hidden;
             page-break-before: always; /* Каждый блок начинается с новой страницы */
     }
@@ -78,17 +78,21 @@
       /*width: 297mm;*/
             /*height: 210mm;*/
             box-sizing: border-box;
-            transform: scale(0.9); /* Отрегулируйте масштаб по необходимости */
-            transform-origin: top left;
-            overflow: hidden;
-            page-break-before: always; /* Каждый блок начинается с новой страницы */
+            transform: scale(0.97) !important; /* Отрегулируйте масштаб по необходимости */
+        transform-origin: top left;
+        overflow: hidden;
+        page-break-before: always;
+        margin-left: -35mm !important;
     }
+
     #pf4 {
       /*width: 297mm;*/
             /*height: 210mm;*/
+             transform: rotate(90deg) scale(1.2);
+            transform-origin: 70% 65%;
             box-sizing: border-box;
-            transform: scale(0.8); /* Отрегулируйте масштаб по необходимости */
-            transform-origin: top left;
+            /*transform: scale(0.8); !* Отрегулируйте масштаб по необходимости *!*/
+            /*transform-origin: top left;*/
             overflow: hidden;
             page-break-before: always; /* Каждый блок начинается с новой страницы */
     }
@@ -96,8 +100,8 @@
       /*width: 297mm;*/
             /*height: 210mm;*/
             box-sizing: border-box;
-            transform: scale(1.2); /* Отрегулируйте масштаб по необходимости */
-            transform-origin: top left;
+            transform: scale(1.4); /* Отрегулируйте масштаб по необходимости */
+        transform-origin: 35% 1%;
             overflow: hidden;
              /* Каждый блок начинается с новой страницы */
     }
@@ -105,12 +109,14 @@
       /*width: 297mm;*/
             /*height: 210mm;*/
             box-sizing: border-box;
-            transform: scale(1.2); /* Отрегулируйте масштаб по необходимости */
-            transform-origin: top left;
+            transform: scale(1.4); /* Отрегулируйте масштаб по необходимости */
+            transform-origin: 35% 1%;
             overflow: hidden;
             page-break-before: always; /* Каждый блок начинается с новой страницы */
     }
-
+      #pf3.scale{
+          transform: scale(1.4) !important;
+      }
 
 }
 

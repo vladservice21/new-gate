@@ -476,9 +476,9 @@
 		</div>
 		<div class="pi" data-data="{&quot;ctm&quot;:[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}"></div>
 	</div>
-	<div id="pf3" class="pf w4 hb" data-page-no="3">
+	<div id="pf3" class="pf w4 hb" data-page-no="3" style="transform: scale(0.70); transform-origin: 18% 1%;">
 		<div class="watermark">novi-vorota.com.ua</div>
-		<div class="pc pc3 w4 hb">
+		<div class="pc pc3 w4 hb" >
       <?php if($wicket == 'on') { ?>
 	<div class="svg-container">
 		<div class="svg-line2_1"></div>
@@ -568,7 +568,7 @@
 		</div>
 		<div class="pi" data-data="{&quot;ctm&quot;:[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}"></div>
 	</div>
-	<div id="pf4" class="pf w6 h10" data-page-no="4">
+	<div id="pf4" class="pf w6 h10" data-page-no="4"  style="margin-top: -350px;">
 		<div class="watermark">novi-vorota.com.ua</div>
 		<div class="pc pc4 w6 h10">
       <?php echo $image4; ?>

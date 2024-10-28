@@ -482,7 +482,7 @@ if (strrpos($pages, "2")) : ?>
 	</div>
 <?php endif;
 if (strrpos($pages, "3")) : ?>
-	<div id="pf3" class="pf w4 ha" data-page-no="3">
+	<div id="pf3" class="pf w4 ha" data-page-no="3" style="transform: scale(0.70); transform-origin: 18% 1%;">
 		<div class="watermark">novi-vorota.com.ua</div>
 		<div class="pc pc3 w4 ha">
       <?php if($wicket == 'on') { ?>
@@ -570,7 +570,7 @@ if (strrpos($pages, "3")) : ?>
 	</div>
 <?php endif;
 if (strrpos($pages, "4")) : ?>
-	<div id="pf4" class="pf w6 hf" data-page-no="4" style="transform: rotate(90deg) scale(1.1) translate(0, -5%); transform-origin: center;">
+	<div id="pf4" class="pf w6 hf" data-page-no="4" style="margin-top: -350px;">
 		<div class="watermark">novi-vorota.com.ua</div>
 		<div class="pc pc4 w6 hf">
       <?php echo $image4; ?>

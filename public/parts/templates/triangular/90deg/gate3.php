@@ -511,102 +511,102 @@ if (strrpos($pages, "2")) : ?>
 		<div class="pi" data-data="{&quot;ctm&quot;:[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}"></div>
 	</div>
 <?php endif;
-if (strrpos($pages, "3")) : ?>
-	<div id="pf3" class="pf w0 h0" data-page-no="3">
-		<div class="watermark">novi-vorota.com.ua</div>
-		<div class="pc pc3 w0 h0">
-      <?php if($wicket == 'on') { ?>
-	<div class="svg-container">
-		<div class="svg-line2_1"></div>
-		<div class="svg-line2_2"></div>
-		<div class="svg-line2_3"></div>
-		<div class="svg-line2_4"></div>
-		<div class="svg-line2_5"></div>
-		<div class="svg-line2_6"></div>
-		<div class="svg-line2_7"></div>
-		<div class="svg-line2_8"></div>
-    <div class="svg-line2_9"></div>
-		<div class="svg-text2_1"><?=($wicket_width+15)?></div>
-		<div class="svg-text2_2"><?=($wicket_left)?></div>
-		<div class="svg-text2_3"><?=($b1_1-100)?></div>
-		<?php
-		$image3 = str_replace("<svg", "<svg class=\"svg-base2\"", $image3);
-		echo $image3;
-		?>
-	<svg class="svg-overlay2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="375px" height="649px" viewBox="0 0 375 649" version="1.1">
-<g id="surface1">
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;" d="M 4.285156 2.140625 L 372.855469 2.140625 L 372.855469 646.859375 L 4.285156 646.859375 Z M 4.285156 2.140625 "/>
-<path style="fill:none;stroke-width:1.70133;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 143.986719 301.719749 L 31.640365 301.719749 M 143.986719 301.719749 L 143.986719 294.789616 M 143.986719 301.719749 L 149.397135 301.719749 M 31.640365 301.719749 L 26.235417 301.719749 M 31.640365 301.719749 L 31.640365 157.049577 M 155.230469 301.719749 L 155.230469 0.919154 M 20.447656 301.719749 L 20.40026 0.919154 M 26.235417 0.919154 L 26.235417 301.719749 M 20.40026 0.919154 L 30.639583 0.922802 L 149.397135 0.919154 M 20.40026 0.919154 L 1.680729 0.924626 M 149.397135 0.919154 L 155.230469 0.919154 M 149.397135 0.919154 L 149.397135 7.588496 M 155.230469 0.919154 L 161.065625 0.919154 M 149.397135 7.588496 L 149.397135 301.719749 M 149.397135 7.588496 L 143.986719 7.588496 L 143.986719 14.389144 M 149.397135 7.588496 L 31.640365 7.590319 M 26.638281 7.590319 L 31.640365 7.590319 M 26.235417 301.719749 L 14.6125 301.719749 M 149.397135 301.719749 L 161.065625 301.719749 M 143.986719 152.120065 L 31.640365 152.120065 M 143.986719 152.120065 L 143.986719 14.389144 M 143.986719 152.120065 L 143.986719 157.049577 M 31.640365 294.789616 L 143.986719 294.789616 M 143.986719 294.789616 L 143.986719 157.049577 M 143.986719 157.049577 L 31.640365 157.049577 M 31.640365 152.120065 L 31.640365 14.389144 M 31.640365 152.120065 L 31.640365 157.049577 M 143.986719 14.389144 L 31.640365 14.389144 M 31.640365 14.389144 L 31.640365 7.590319 M 173.999219 12.384877 L 165.471615 12.384877 M 14.6125 301.719749 L 10.202865 301.719749 M 14.6125 301.719749 L 14.566927 7.590319 M 1.680729 301.719749 L 10.202865 301.719749 M 10.202865 301.719749 L 10.202865 296.786589 M 1.680729 296.786589 L 10.202865 296.786589 M 10.202865 296.786589 L 10.179167 157.049577 M 14.566927 0.919154 L 14.566927 7.590319 M 10.155469 7.590319 L 14.566927 7.590319 M 10.155469 7.590319 L 1.680729 7.590319 M 10.155469 7.590319 L 10.179167 152.120065 M 10.155469 12.390348 L 1.680729 12.390348 M 173.999219 0.919154 L 161.065625 0.919154 M 161.065625 0.919154 L 161.065625 301.719749 M 161.065625 301.719749 L 165.471615 301.719749 M 165.471615 301.719749 L 165.480729 296.786589 M 165.471615 301.719749 L 173.999219 301.719749 M 165.467969 296.786589 L 165.480729 296.786589 M 165.480729 296.786589 L 173.999219 296.786589 M 165.480729 296.786589 L 165.47526 157.049577 M 165.471615 7.588496 L 161.46849 7.588496 M 165.471615 7.588496 L 165.471615 12.384877 M 165.471615 7.588496 L 173.999219 7.588496 M 165.471615 12.384877 L 165.47526 152.120065 M 10.179167 152.120065 L 1.680729 152.120065 M 10.179167 152.120065 L 10.179167 157.049577 M 10.179167 157.049577 L 1.680729 157.049577 M 165.47526 152.120065 L 173.999219 152.120065 M 165.47526 152.120065 L 165.47526 157.049577 M 165.47526 157.049577 L 173.999219 157.049577 " transform="matrix(2.142857,0,0,2.141914,0,0)"/>
-</g>
-</svg>
-	</div>
-	<?php } else { ?>
-      <?php echo $image3; ?>
-      <?php } ?>
-			<div class="t m9 x59 h4 y70 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $a; ?></div>
-			<div class="t m28 x5a h4 y71 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $a2; ?></div>
-			<div class="t m26 x5b h4 y72 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $b2; ?></div>
-			<div class="t m36 x5c h4 y73 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $b1; ?></div>
-			<div class="t m37 x5d h7 y74 ff3 fs3 fc0 sc0 ls0 ws0"><?php echo $g; ?></div>
-			<div class="t m28 x5e h4 y75 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $a3; ?></div>
-			<div class="t m2b x5f h4 y76 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $c; ?></div>
-			<div class="t m25 x60 h4 y77 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $c1; ?> <span class="_ _4"> </span> <?php echo $c1; ?> <span class="_ _5"> </span> <?php echo $c1; ?> <span class="_ _6"> </span> <?php echo $c1; ?></div>
-			<div class="t m3 x61 h4 y78 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $d; ?></div>
-			<div class="t m3 x61 h4 y79 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $d; ?></div>
-			<div class="t m38 x62 h8 y7a ff3 fs4 fc1 sc0 ls0 ws0"><?php echo $g1; ?></div>
-			<div class="t m38 x62 h8 y7b ff3 fs4 fc1 sc0 ls0 ws0"><?php echo $g1; ?></div>
-			<div class="t m9 x11 h3 y7c ff3 fs1 fc1 sc0 ls0 ws0">A</div>
-			<div class="t m13 x63 h3 y7d ff3 fs1 fc1 sc0 ls0 ws0">B</div>
-			<div class="t m1 x64 h3 y7e ff3 fs1 fc1 sc0 ls0 ws0">C</div>
-			<div class="t m13 x65 h3 y7f ff3 fs1 fc1 sc0 ls0 ws0">D</div>
-			<div class="t m1 x66 h3 y80 ff3 fs1 fc1 sc0 ls0 ws0">E</div>
-			<div class="t m39 x67 h9 y81 ff3 fs5 fc1 sc0 ls0 ws0">1</div>
-			<div class="t m3a x68 h9 y82 ff3 fs5 fc1 sc0 ls0 ws0">2</div>
-			<div class="t m3a x69 h9 y83 ff3 fs5 fc1 sc0 ls0 ws0">3</div>
-			<div class="t m3b x40 h9 y84 ff3 fs5 fc1 sc0 ls0 ws0">4</div>
-			<div class="t m3a x1 h9 y85 ff3 fs5 fc1 sc0 ls0 ws0">5</div>
-			<div class="t m3a x20 h9 y86 ff3 fs5 fc1 sc0 ls0 ws0">6</div>
-			<div class="t m3a x6a h9 y87 ff3 fs5 fc1 sc0 ls0 ws0">7</div>
-			<div class="t m3a x6b h9 y88 ff3 fs5 fc1 sc0 ls0 ws0">7</div>
-			<div class="t m3a x6c h9 y89 ff3 fs5 fc1 sc0 ls0 ws0">7</div>
-			<div class="t m3a x6d h9 y8a ff3 fs5 fc1 sc0 ls0 ws0">7</div>
-			<div class="t m3a x6e h9 y89 ff3 fs5 fc1 sc0 ls0 ws0">7</div>
-			<div class="t m3a x6f h9 y8a ff3 fs5 fc1 sc0 ls0 ws0">7</div>
-			<div class="t m3a x70 h9 y8b ff3 fs5 fc1 sc0 ls0 ws0">8</div>
-			<div class="t m3a x71 h9 y8c ff3 fs5 fc1 sc0 ls0 ws0">8</div>
-			<div class="t m3a x72 h9 y8d ff3 fs5 fc1 sc0 ls0 ws0">9</div>
-			<div class="t m1e x73 h3 y8e ff3 fs1 fc1 sc0 ls0 ws0">МЕСТНЫЙ A</div>
-			<div class="t m2d x74 h3 y8f ff3 fs1 fc1 sc0 ls0 ws0">МАСШТАБ 1 : 6</div>
-			<div class="t m3a x46 h9 y90 ff3 fs5 fc1 sc0 ls0 ws0">3</div>
-			<div class="t m3a x75 h9 y91 ff3 fs5 fc1 sc0 ls0 ws0">5</div>
-			<div class="t m1f x76 h3 y92 ff3 fs1 fc1 sc0 ls0 ws0">МЕСТНЫЙ B</div>
-			<div class="t m2d x32 h3 y93 ff3 fs1 fc1 sc0 ls0 ws0">МАСШТАБ 1 : 6</div>
-			<div class="t m3a x77 h9 y94 ff3 fs5 fc1 sc0 ls0 ws0">5</div>
-			<div class="t m3a x78 h9 y95 ff3 fs5 fc1 sc0 ls0 ws0">2</div>
-			<div class="t m39 x79 h9 y96 ff3 fs5 fc1 sc0 ls0 ws0">1</div>
-			<div class="t m1d x7a h3 y97 ff3 fs1 fc1 sc0 ls0 ws0">МЕСТНЫЙ C</div>
-			<div class="t m2d x7b h3 y98 ff3 fs1 fc1 sc0 ls0 ws0">МАСШТАБ 1 : 6</div>
-			<div class="t m3a x7c h9 y99 ff3 fs5 fc1 sc0 ls0 ws0">3</div>
-			<div class="t m3b x7d h9 y9a ff3 fs5 fc1 sc0 ls0 ws0">4</div>
-			<div class="t m3a x7e h9 y9b ff3 fs5 fc1 sc0 ls0 ws0">8</div>
-			<div class="t m3a x7f h9 y9c ff3 fs5 fc1 sc0 ls0 ws0">9</div>
-			<div class="t m1f x80 h3 y9d ff3 fs1 fc1 sc0 ls0 ws0">МЕСТНЫЙ D</div>
-			<div class="t m2d x81 h3 y9e ff3 fs1 fc1 sc0 ls0 ws0">МАСШТАБ 1 : 6</div>
-			<div class="t m3b x82 h9 y9f ff3 fs5 fc1 sc0 ls0 ws0">4</div>
-			<div class="t m39 x83 h9 ya0 ff3 fs5 fc1 sc0 ls0 ws0">1</div>
-			<div class="t m3a x84 h9 ya1 ff3 fs5 fc1 sc0 ls0 ws0">2</div>
-			<div class="t m1d x85 h3 ya2 ff3 fs1 fc1 sc0 ls0 ws0">МЕСТНЫЙ E</div>
-			<div class="t m2d x31 h3 ya3 ff3 fs1 fc1 sc0 ls0 ws0">МАСШТАБ 1 : 6</div>
-			<div class="t m3a x86 h9 ya4 ff3 fs5 fc1 sc0 ls0 ws0">9</div>
-			<div class="t m3a x87 h9 ya5 ff3 fs5 fc1 sc0 ls0 ws0">2</div>
-			<div class="t m39 x88 h9 ya6 ff3 fs5 fc1 sc0 ls0 ws0">1</div>
-			<div class="t m35 xa h4 ya7 ff3 fs2 fc0 sc0 ls0 ws0">Лист_3</div>
-		</div>
-		<div class="pi" data-data="{&quot;ctm&quot;:[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}"></div>
-	</div>
-<?php endif;
+  if (strrpos($pages, "3")) : ?>
+      <div id="pf3" class="pf w0 h0 scale" data-page-no="3">
+          <div class="watermark">novi-vorota.com.ua</div>
+          <div class="pc pc3 w0 h0">
+              <?php if($wicket == 'on') { ?>
+                  <div class="svg-container">
+                      <div class="svg-line2_1"></div>
+                      <div class="svg-line2_2"></div>
+                      <div class="svg-line2_3"></div>
+                      <div class="svg-line2_4"></div>
+                      <div class="svg-line2_5"></div>
+                      <div class="svg-line2_6"></div>
+                      <div class="svg-line2_7"></div>
+                      <div class="svg-line2_8"></div>
+                      <div class="svg-line2_9"></div>
+                      <div class="svg-text2_1"><?=($wicket_width+15)?></div>
+                      <div class="svg-text2_2"><?=($wicket_left)?></div>
+                      <div class="svg-text2_3"><?=($b1_1-100)?></div>
+                      <?php
+                      $image3 = str_replace("<svg", "<svg class=\"svg-base2\"", $image3);
+                      echo $image3;
+                      ?>
+                      <svg class="svg-overlay2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="375px" height="649px" viewBox="0 0 375 649" version="1.1">
+                          <g id="surface1">
+                              <path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;" d="M 4.285156 2.140625 L 372.855469 2.140625 L 372.855469 646.859375 L 4.285156 646.859375 Z M 4.285156 2.140625 "/>
+                              <path style="fill:none;stroke-width:1.70133;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 143.986719 301.719749 L 31.640365 301.719749 M 143.986719 301.719749 L 143.986719 294.789616 M 143.986719 301.719749 L 149.397135 301.719749 M 31.640365 301.719749 L 26.235417 301.719749 M 31.640365 301.719749 L 31.640365 157.049577 M 155.230469 301.719749 L 155.230469 0.919154 M 20.447656 301.719749 L 20.40026 0.919154 M 26.235417 0.919154 L 26.235417 301.719749 M 20.40026 0.919154 L 30.639583 0.922802 L 149.397135 0.919154 M 20.40026 0.919154 L 1.680729 0.924626 M 149.397135 0.919154 L 155.230469 0.919154 M 149.397135 0.919154 L 149.397135 7.588496 M 155.230469 0.919154 L 161.065625 0.919154 M 149.397135 7.588496 L 149.397135 301.719749 M 149.397135 7.588496 L 143.986719 7.588496 L 143.986719 14.389144 M 149.397135 7.588496 L 31.640365 7.590319 M 26.638281 7.590319 L 31.640365 7.590319 M 26.235417 301.719749 L 14.6125 301.719749 M 149.397135 301.719749 L 161.065625 301.719749 M 143.986719 152.120065 L 31.640365 152.120065 M 143.986719 152.120065 L 143.986719 14.389144 M 143.986719 152.120065 L 143.986719 157.049577 M 31.640365 294.789616 L 143.986719 294.789616 M 143.986719 294.789616 L 143.986719 157.049577 M 143.986719 157.049577 L 31.640365 157.049577 M 31.640365 152.120065 L 31.640365 14.389144 M 31.640365 152.120065 L 31.640365 157.049577 M 143.986719 14.389144 L 31.640365 14.389144 M 31.640365 14.389144 L 31.640365 7.590319 M 173.999219 12.384877 L 165.471615 12.384877 M 14.6125 301.719749 L 10.202865 301.719749 M 14.6125 301.719749 L 14.566927 7.590319 M 1.680729 301.719749 L 10.202865 301.719749 M 10.202865 301.719749 L 10.202865 296.786589 M 1.680729 296.786589 L 10.202865 296.786589 M 10.202865 296.786589 L 10.179167 157.049577 M 14.566927 0.919154 L 14.566927 7.590319 M 10.155469 7.590319 L 14.566927 7.590319 M 10.155469 7.590319 L 1.680729 7.590319 M 10.155469 7.590319 L 10.179167 152.120065 M 10.155469 12.390348 L 1.680729 12.390348 M 173.999219 0.919154 L 161.065625 0.919154 M 161.065625 0.919154 L 161.065625 301.719749 M 161.065625 301.719749 L 165.471615 301.719749 M 165.471615 301.719749 L 165.480729 296.786589 M 165.471615 301.719749 L 173.999219 301.719749 M 165.467969 296.786589 L 165.480729 296.786589 M 165.480729 296.786589 L 173.999219 296.786589 M 165.480729 296.786589 L 165.47526 157.049577 M 165.471615 7.588496 L 161.46849 7.588496 M 165.471615 7.588496 L 165.471615 12.384877 M 165.471615 7.588496 L 173.999219 7.588496 M 165.471615 12.384877 L 165.47526 152.120065 M 10.179167 152.120065 L 1.680729 152.120065 M 10.179167 152.120065 L 10.179167 157.049577 M 10.179167 157.049577 L 1.680729 157.049577 M 165.47526 152.120065 L 173.999219 152.120065 M 165.47526 152.120065 L 165.47526 157.049577 M 165.47526 157.049577 L 173.999219 157.049577 " transform="matrix(2.142857,0,0,2.141914,0,0)"/>
+                          </g>
+                      </svg>
+                  </div>
+              <?php } else { ?>
+                  <?php echo $image3; ?>
+              <?php } ?>
+              <div class="t m9 x59 h4 y70 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $a; ?></div>
+              <div class="t m28 x5a h4 y71 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $a2; ?></div>
+              <div class="t m26 x5b h4 y72 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $b2; ?></div>
+              <div class="t m36 x5c h4 y73 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $b1; ?></div>
+              <div class="t m37 x5d h7 y74 ff3 fs3 fc0 sc0 ls0 ws0"><?php echo $g; ?></div>
+              <div class="t m28 x5e h4 y75 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $a3; ?></div>
+              <div class="t m2b x5f h4 y76 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $c; ?></div>
+              <div class="t m25 x60 h4 y77 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $c1; ?> <span class="_ _4"> </span> <?php echo $c1; ?> <span class="_ _5"> </span> <?php echo $c1; ?> <span class="_ _6"> </span> <?php echo $c1; ?></div>
+              <div class="t m3 x61 h4 y78 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $d; ?></div>
+              <div class="t m3 x61 h4 y79 ff3 fs2 fc0 sc0 ls0 ws0"><?php echo $d; ?></div>
+              <div class="t m38 x62 h8 y7a ff3 fs4 fc1 sc0 ls0 ws0"><?php echo $g1; ?></div>
+              <div class="t m38 x62 h8 y7b ff3 fs4 fc1 sc0 ls0 ws0"><?php echo $g1; ?></div>
+              <div class="t m9 x11 h3 y7c ff3 fs1 fc1 sc0 ls0 ws0">A</div>
+              <div class="t m13 x63 h3 y7d ff3 fs1 fc1 sc0 ls0 ws0">B</div>
+              <div class="t m1 x64 h3 y7e ff3 fs1 fc1 sc0 ls0 ws0">C</div>
+              <div class="t m13 x65 h3 y7f ff3 fs1 fc1 sc0 ls0 ws0">D</div>
+              <div class="t m1 x66 h3 y80 ff3 fs1 fc1 sc0 ls0 ws0">E</div>
+              <div class="t m39 x67 h9 y81 ff3 fs5 fc1 sc0 ls0 ws0">1</div>
+              <div class="t m3a x68 h9 y82 ff3 fs5 fc1 sc0 ls0 ws0">2</div>
+              <div class="t m3a x69 h9 y83 ff3 fs5 fc1 sc0 ls0 ws0">3</div>
+              <div class="t m3b x40 h9 y84 ff3 fs5 fc1 sc0 ls0 ws0">4</div>
+              <div class="t m3a x1 h9 y85 ff3 fs5 fc1 sc0 ls0 ws0">5</div>
+              <div class="t m3a x20 h9 y86 ff3 fs5 fc1 sc0 ls0 ws0">6</div>
+              <div class="t m3a x6a h9 y87 ff3 fs5 fc1 sc0 ls0 ws0">7</div>
+              <div class="t m3a x6b h9 y88 ff3 fs5 fc1 sc0 ls0 ws0">7</div>
+              <div class="t m3a x6c h9 y89 ff3 fs5 fc1 sc0 ls0 ws0">7</div>
+              <div class="t m3a x6d h9 y8a ff3 fs5 fc1 sc0 ls0 ws0">7</div>
+              <div class="t m3a x6e h9 y89 ff3 fs5 fc1 sc0 ls0 ws0">7</div>
+              <div class="t m3a x6f h9 y8a ff3 fs5 fc1 sc0 ls0 ws0">7</div>
+              <div class="t m3a x70 h9 y8b ff3 fs5 fc1 sc0 ls0 ws0">8</div>
+              <div class="t m3a x71 h9 y8c ff3 fs5 fc1 sc0 ls0 ws0">8</div>
+              <div class="t m3a x72 h9 y8d ff3 fs5 fc1 sc0 ls0 ws0">9</div>
+              <div class="t m1e x73 h3 y8e ff3 fs1 fc1 sc0 ls0 ws0">МЕСТНЫЙ A</div>
+              <div class="t m2d x74 h3 y8f ff3 fs1 fc1 sc0 ls0 ws0">МАСШТАБ 1 : 6</div>
+              <div class="t m3a x46 h9 y90 ff3 fs5 fc1 sc0 ls0 ws0">3</div>
+              <div class="t m3a x75 h9 y91 ff3 fs5 fc1 sc0 ls0 ws0">5</div>
+              <div class="t m1f x76 h3 y92 ff3 fs1 fc1 sc0 ls0 ws0">МЕСТНЫЙ B</div>
+              <div class="t m2d x32 h3 y93 ff3 fs1 fc1 sc0 ls0 ws0">МАСШТАБ 1 : 6</div>
+              <div class="t m3a x77 h9 y94 ff3 fs5 fc1 sc0 ls0 ws0">5</div>
+              <div class="t m3a x78 h9 y95 ff3 fs5 fc1 sc0 ls0 ws0">2</div>
+              <div class="t m39 x79 h9 y96 ff3 fs5 fc1 sc0 ls0 ws0">1</div>
+              <div class="t m1d x7a h3 y97 ff3 fs1 fc1 sc0 ls0 ws0">МЕСТНЫЙ C</div>
+              <div class="t m2d x7b h3 y98 ff3 fs1 fc1 sc0 ls0 ws0">МАСШТАБ 1 : 6</div>
+              <div class="t m3a x7c h9 y99 ff3 fs5 fc1 sc0 ls0 ws0">3</div>
+              <div class="t m3b x7d h9 y9a ff3 fs5 fc1 sc0 ls0 ws0">4</div>
+              <div class="t m3a x7e h9 y9b ff3 fs5 fc1 sc0 ls0 ws0">8</div>
+              <div class="t m3a x7f h9 y9c ff3 fs5 fc1 sc0 ls0 ws0">9</div>
+              <div class="t m1f x80 h3 y9d ff3 fs1 fc1 sc0 ls0 ws0">МЕСТНЫЙ D</div>
+              <div class="t m2d x81 h3 y9e ff3 fs1 fc1 sc0 ls0 ws0">МАСШТАБ 1 : 6</div>
+              <div class="t m3b x82 h9 y9f ff3 fs5 fc1 sc0 ls0 ws0">4</div>
+              <div class="t m39 x83 h9 ya0 ff3 fs5 fc1 sc0 ls0 ws0">1</div>
+              <div class="t m3a x84 h9 ya1 ff3 fs5 fc1 sc0 ls0 ws0">2</div>
+              <div class="t m1d x85 h3 ya2 ff3 fs1 fc1 sc0 ls0 ws0">МЕСТНЫЙ E</div>
+              <div class="t m2d x31 h3 ya3 ff3 fs1 fc1 sc0 ls0 ws0">МАСШТАБ 1 : 6</div>
+              <div class="t m3a x86 h9 ya4 ff3 fs5 fc1 sc0 ls0 ws0">9</div>
+              <div class="t m3a x87 h9 ya5 ff3 fs5 fc1 sc0 ls0 ws0">2</div>
+              <div class="t m39 x88 h9 ya6 ff3 fs5 fc1 sc0 ls0 ws0">1</div>
+              <div class="t m35 xa h4 ya7 ff3 fs2 fc0 sc0 ls0 ws0">Лист_3</div>
+          </div>
+          <div class="pi" data-data="{&quot;ctm&quot;:[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}"></div>
+      </div>
+  <?php endif;
 if (strrpos($pages, "4")) : ?>
-	<div id="pf4" class="pf w4 ha" data-page-no="4" style="transform: rotate(90deg) scale(1.1) translate(0, -5%); transform-origin: center;">
+	<div id="pf4" class="pf w4 ha" data-page-no="4">
 		<div class="watermark">novi-vorota.com.ua</div>
 		<div class="pc pc4 w4 ha">
       <?php echo $image4; ?>
@@ -697,6 +697,7 @@ if (strrpos($pages, "4")) : ?>
 		<div class="pi" data-data="{&quot;ctm&quot;:[0.000000,1.000000,-1.000000,0.000000,842.000000,0.000000]}"></div>
 	</div>
 <?php endif;
+
 if (strrpos($pages, "5")) : ?>
 	<div id="pf5" class="pf w0 h0" data-page-no="5">
 		<div class="watermark">novi-vorota.com.ua</div>
