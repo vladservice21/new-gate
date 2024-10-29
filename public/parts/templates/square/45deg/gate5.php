@@ -109,30 +109,33 @@
 
 .svg-line1 {
 	position: absolute;
-	background-color: gray;
+    background: gray;
+    border-bottom: 1px solid gray;
     top: 20.5641%;
     left: <?=($result_left1+19)?>px;
     width: 93.0px!important;
-    height: 1px!important;
+    height: 0px!important;
     z-index: 3;
 }
 
 .svg-line2 {
 	position: absolute;
-	background-color: gray;
+    background: gray;
+    border-left: 1px solid gray;
     top: 18.71%;
     left: <?=($result_left1+19)?>px;
-    width: 1px!important;
+    width: 0px!important;
     height: 50px!important;
     z-index: 3;
 }
 
 .svg-line3 {
 	position: absolute;
-	background-color: gray;
+    background: gray;
+    border-left: 1px solid gray;
     top: 18.71%;
     left: <?=($result_left1+8+103)?>px;
-    width: 1px!important;
+    width: 0px!important;
     height: 50px!important;
     z-index: 3;
 }
@@ -151,30 +154,33 @@
 
 .svg-line4 {
 	position: absolute;
-	background-color: gray;
+    background-color: gray;
+    border-bottom: 1px solid gray;
     top: 63.71%;
     left: <?=($start_gate1)?>px;
     width: <?=(($result_left1)-49)?>px!important;
-    height: 1px!important;
+    height: 0px!important;
     z-index: 3;
 }
 
 .svg-line5 {
 	position: absolute;
-	background-color: gray;
+    background: gray;
+    border-left: 1px solid gray;
     top: 50.71%;
     left: <?=($start_gate1)?>px;
-    width: 1px!important;
+    width: 0px!important;
     height: 120px!important;
     z-index: 3;
 }
 
 .svg-line6 {
 	position: absolute;
-	background-color: gray;
+    background: gray;
+    border-left: 1px solid gray;
     top: 50.71%;
     left: <?=($result_left1+15)?>px;
-    width: 1px!important;
+    width: 0px!important;
     height: 120px!important;
     z-index: 3;
 }
@@ -213,19 +219,21 @@
 .svg-line2_1 {
 	position: absolute;
 	background-color: gray;
+    border-bottom: 1px solid gray;
     top: 15.71%;
     left: <?=($result_left2+13)?>px;
     width: 91.0px!important;
-    height: 1px!important;
+    height: 0px!important;
     z-index: 3;
 }
 
 .svg-line2_2 {
 	position: absolute;
 	background-color: gray;
+    border-left: 1px solid gray;
     top: 14.01%;
     left: <?=($result_left2+13)?>px;
-    width: 1px!important;
+    width: 0px!important;
     height: 50px!important;
     z-index: 3;
 }
@@ -233,9 +241,10 @@
 .svg-line2_3 {
 	position: absolute;
 	background-color: gray;
+    border-left: 1px solid gray;
     top: 14.01%;
     left: <?=($result_left2+5+98)?>px;
-    width: 1px!important;
+    width: 0px!important;
     height: 50px!important;
     z-index: 3;
 }
@@ -255,19 +264,21 @@
 .svg-line2_4 {
 	position: absolute;
 	background-color: gray;
+    border-bottom: 1px solid gray;
     top: 53.71%;
     left: <?=($start_gate2)?>px;
     width: <?=(($result_left2)-126)?>px!important;
-    height: 1px!important;
+    height: 0px!important;
     z-index: 3;
 }
 
 .svg-line2_5 {
 	position: absolute;
 	background-color: gray;
+    border-left: 1px solid gray;
     top: 43.71%;
     left: <?=($start_gate2)?>px;
-    width: 1px!important;
+    width: 0px!important;
     height: 140px!important;
     z-index: 3;
 }
@@ -275,9 +286,10 @@
 .svg-line2_6 {
 	position: absolute;
 	background-color: gray;
+    border-left: 1px solid gray;
     top: 43.71%;
     left: <?=($result_left2+9)?>px;
-    width: 1px!important;
+    width: 0px!important;
     height: 140px!important;
     z-index: 3;
 }
@@ -297,19 +309,21 @@
 .svg-line2_7 {
 	position: absolute;
     background-color: gray;
+    border-bottom: 1px solid gray;
     top: 44.7%;
     left: 88px;
     width: 300px !important;
-    height: 1px !important;
+    height: 0px !important;
     z-index: 3;
 }
 
 .svg-line2_8 {
 	position: absolute;
     background-color: gray;
+    border-left: 1px solid gray;
     top: 18.1%;
     left: 102px;
-    width: 1px !important;
+    width: 0px !important;
     height: 318px !important;
     z-index: 3;
 }
@@ -317,20 +331,22 @@
 .svg-line2_9 {
   position: absolute;
     background-color: gray;
+    border-bottom: 1px solid gray;
     top: 18.1%;
     left: 88px;
     width: 300px !important;
-    height: 1px !important;
+    height: 0px !important;
     z-index: 3;
 }
 
 .svg-text2_3 {
 	position: absolute;
     background-color: transparent;
+    border-left: 0px solid gray;
     text-align: center;
     top: 18.1%;
     left: 102px;
-    width: 1px !important;
+    width: 0px !important;
     height: 318px !important;
     z-index: 3;
     writing-mode: vertical-lr;
