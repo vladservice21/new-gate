@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\ApiController;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
@@ -19,19 +20,19 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\File;
 use Google\Client;
 use Google\Service\Drive;
 use Spatie\Browsershot\Browsershot;
-class CalcController extends Controller
+//use Barryvdh\DomPDF\Facade\Pdf;
+//use TCPDF;
+//use Mpdf\Mpdf;
+class TestController extends Controller
 {
     protected $apiController;
     public function __construct(ApiController $apiController)
     {
-//        $this->middleware('can:user list', ['only' => ['index', 'show']]);
-//        $this->middleware('can:user create', ['only' => ['create', 'store']]);
-//        $this->middleware('can:user edit', ['only' => ['edit', 'update']]);
-//        $this->middleware('can:user delete', ['only' => ['destroy']]);
+
         $this->apiController = $apiController;
     }
 
@@ -43,7 +44,71 @@ class CalcController extends Controller
     public function index()
     {
 
-        return view('admin.form_calc');
+//        $pdfUrl = "https://drawing.holygrail.com.ua/storage/pdfs/198ba591-a873-4f00-83de-948d7847baba.pdf";
+//        $content = file_get_contents($pdfUrl);
+//        dd($content);
+        try {
+            $filename = Str::uuid() . '.pdf';
+            $filepath = storage_path('app/public/pdfs/' . $filename);
+
+            if (!Storage::exists('app/public/pdfs')) {
+                Storage::makeDirectory('app/public/pdfs');
+            }
+
+            try {
+                $params = $this->apiController->generateParametrPdf(37);
+                $view = view('pdf', [
+                    'html' => $params,
+                    'document_root' => $_SERVER['DOCUMENT_ROOT'],
+                    'app_url' => $_SERVER['APP_URL']
+                ])->render();
+                $chromePath = '/usr/bin/google-chrome';
+
+                Browsershot::html($view)
+                    ->noSandbox()
+//                    ->setChromePath($chromePath)
+                    ->timeout(60000)
+                    ->deviceScaleFactor(2)
+                    ->format('A4')
+                    ->margin(0)
+                    ->addArguments(['--disable-smart-shrinking', '--no-margin'])
+                    ->save($filepath);
+                dd($filepath);
+
+                $pdfUrl = asset('/storage/pdfs/' . $filename);
+                dd($pdfUrl);
+                exit();
+
+                Browsershot::html($view)
+                    ->setContentUrl(route('viewpdf', 27))
+                    ->format('A4')
+                    ->noSandbox()
+                    ->setChromePath($chromePath)
+                    ->timeout(60000)
+                    ->addChromiumArguments([
+                        '--disable-setuid-sandbox',
+                        '--headless',
+                        '--disable-infobars',
+                        '--disable-dev-shm-usage',
+                        '--disable-web-security',
+                        '--enable-logging',
+                        '--v=1',
+                        '--allow-file-access-from-files',
+                    ])
+                    ->save($filepath);
+
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+            }
+
+            $pdfUrl = asset('app/public/pdfs/' . $filename);
+
+            return $pdfUrl;
+        }catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
+        dd('dsadsa');
     }
 
     public function store(Request $request)
@@ -73,9 +138,9 @@ class CalcController extends Controller
 
         foreach ($params as $key => $value) {
             if($key != 'wicket' && $key != 'wicket_left' && $key != 'wicket_width') {
-            if(empty($value)) {
-                $invalid_value .= $key.',';
-            }
+                if(empty($value)) {
+                    $invalid_value .= $key.',';
+                }
             }
         }
 
@@ -85,15 +150,15 @@ class CalcController extends Controller
             return redirect()->route('admin.form_calc.index')->with('error', $status);
         } else {
 
-        //DB::table('api_requests')->insert($params);
-        $id = DB::table('api_requests')->insertGetId($params,'id');
-        $file_link = $this->uploadToDrive(route('viewpdf', $id), $params['name'], $id);
-        $status = 'Розрахунок створено. <a href="'.$file_link.'" target="_blank">'.$file_link.'</a>';
-        return redirect()->route('admin.form_calc.index')->with('message', $status);
+            //DB::table('api_requests')->insert($params);
+            $id = DB::table('api_requests')->insertGetId($params,'id');
+            $file_link = $this->uploadToDrive(route('viewpdf', $id), $params['name'], $id, $request->post('pages'));
+            $status = 'Розрахунок створено. <a href="'.$file_link.'" target="_blank">'.$file_link.'</a>';
+            return redirect()->route('admin.form_calc.index')->with('message', $status);
         }
     }
 
-    public function uploadToDrive($url, $name, $id) {
+    public function uploadToDrive($url, $name, $id, $pages) {
 //        $url = $request->query('url');
 
         if (!$url || !filter_var($url, FILTER_VALIDATE_URL)) {
@@ -104,12 +169,12 @@ class CalcController extends Controller
             $filename = Str::uuid() . '.pdf';
             $filepath = storage_path('app/public/pdfs/' . $filename);
 
-            if (!Storage::exists('app/public/pdfs')) {
-                Storage::makeDirectory('app/public/pdfs');
+            if (!Storage::exists('public/pdfs')) {
+                Storage::makeDirectory('public/pdfs');
             }
 
             try {
-                $params = $this->apiController->generateParametrPdf($id);
+                $params = $this->apiController->generateParametrPdf(277);
                 $view = view('pdf', [
                     'html' => $params,
                     'document_root' => $_SERVER['DOCUMENT_ROOT'],
@@ -118,25 +183,29 @@ class CalcController extends Controller
                 $chromePath = '/usr/bin/google-chrome';
 
                 Browsershot::html($view)
-                    ->noSandbox()
-                    ->waitUntilNetworkIdle()
-                    ->setChromePath($chromePath)
-                    ->timeout(60000)
                     ->format('A4')
+                    ->setChromePath($chromePath)
                     ->save($filepath);
-
+//                Browsershot::html($view)->format('A4')->save($filepath);
+//                SnappyPdf::loadHTML($view)->setPaper('a4')->save($filepath);
+//                $pdf = Pdf::loadView('pdf', [
+//                    'html' => $params,
+//                    'document_root' => $_SERVER['DOCUMENT_ROOT'],
+//                    'app_url' => $_SERVER['APP_URL']
+//                ]);
+//
+//                return $pdf->stream('filename.pdf');
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Error create url'], 400);
+                dd($e->getMessage());
             }
 
-            $pdfUrl = '/storage/pdfs/' . $filename;
+            $pdfUrl = asset('storage/pdfs/' . $filename);
 
+            return $pdfUrl;
         }catch (\Exception $e) {
-            Log::alert( 'Error create url' . $e->getMessage());
-            return response()->json(['error' => 'Error create url' . $e->getMessage()], 400);
+            dd($e->getMessage());
         }
-//        $create_pdf = json_decode(file_get_contents("http://drawing-vorota.shop:3000/?url=".$url), true);
-        $content = file_get_contents($filepath);
+        $create_pdf = json_decode(file_get_contents("http://drawing-vorota.shop:3000/?url=".$url), true);
 
         $client = new Client();
         $client->setAuthConfig(env('GOOGLE_APPLICATION_CREDENTIALS'));
@@ -152,6 +221,7 @@ class CalcController extends Controller
             'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')]
         ]);
 
+        $content = file_get_contents($create_pdf);
 
         $file = $service->files->create($fileMetadata, [
             'data' => $content,
@@ -162,85 +232,11 @@ class CalcController extends Controller
 
         $fileId = $file->id;
         $fileLink = "https://drive.google.com/file/d/{$fileId}/view?usp=sharing";
-        DB::table('api_requests')
-        ->where('id', $id)
-        ->update(['google_file_link' => $fileLink]);
-        return $fileLink;
-    }
-public function regeneratePdf($id)
-    {
-        $record = DB::table('api_requests')->where('id', $id)->first();
-        if (!$record) {
-            return redirect()->back()->with('error', 'Запис не знайдено.');
-        }
-//        try {
-            $filename = Str::uuid() . '.pdf';
-            $filepath = storage_path('app/public/pdfs/' . $filename);
-
-            if (!Storage::exists('app/public/pdfs')) {
-                Storage::makeDirectory('app/public/pdfs');
-            }
-
-            $params = $this->apiController->generateParametrPdf($id);
-            $view = view('pdf', [
-                'html' => $params,
-                'document_root' => $_SERVER['DOCUMENT_ROOT'],
-                'app_url' => $_SERVER['APP_URL']
-            ])->render();
-
-            $chromePath = '/usr/bin/google-chrome';
-
-            $browser = new Browsershot();
-            $browser->html($view)
-                // ->showBackground()
-                ->noSandbox()
-                ->waitUntilNetworkIdle()
-                ->setChromePath($chromePath)
-                ->timeout(60000)
-                ->format('A4')
-                ->save($filepath);
-
-//            Browsershot::html($view)
-//                ->noSandbox()
-//                ->setChromePath($chromePath)
-//                ->deviceScaleFactor(2)
-//                ->timeout(60000)
-//                ->format('A4')
-//                ->save($filepath);
-//        } catch (\Exception $e) {
-//            return redirect()->back()->with('error', 'Помилка створення PDF: ' . $e->getMessage());
-//        }
-
-        $content = file_get_contents($filepath);
-
-        $client = new Client();
-        $client->setAuthConfig(env('GOOGLE_APPLICATION_CREDENTIALS'));
-        $client->addScope(Drive::DRIVE_FILE);
-
-        $service = new Drive($client);
-
-        $fileMetadata = new Drive\DriveFile([
-            'name' => $record->name,
-            'mimeType' => 'application/pdf',
-            'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')]
-        ]);
-
-        $file = $service->files->create($fileMetadata, [
-            'data' => $content,
-            'mimeType' => 'application/pdf',
-            'uploadType' => 'multipart',
-            'fields' => 'id'
-        ]);
-
-        $fileId = $file->id;
-        $fileLink = "https://drive.google.com/file/d/{$fileId}/view?usp=sharing";
-
         DB::table('api_requests')
             ->where('id', $id)
             ->update(['google_file_link' => $fileLink]);
-
-//        @unlink($filepath);
-
-        return redirect()->back()->with('message', 'PDF перегенеровано. <a href="' . $fileLink . '" target="_blank">Переглянути PDF</a>');
+        return $fileLink;
     }
+
+
 }

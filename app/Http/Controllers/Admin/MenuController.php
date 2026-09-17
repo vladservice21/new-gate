@@ -11,10 +11,10 @@ class MenuController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:menu list', ['only' => ['index']]);
-        $this->middleware('can:menu create', ['only' => ['create', 'store']]);
-        $this->middleware('can:menu edit', ['only' => ['edit', 'update']]);
-        $this->middleware('can:menu delete', ['only' => ['destroy']]);
+//        $this->middleware('can:menu list', ['only' => ['index']]);
+//        $this->middleware('can:menu create', ['only' => ['create', 'store']]);
+//        $this->middleware('can:menu edit', ['only' => ['edit', 'update']]);
+//        $this->middleware('can:menu delete', ['only' => ['destroy']]);
     }
 
     /**

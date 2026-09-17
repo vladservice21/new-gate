@@ -33,7 +33,7 @@
                                 <a href="{{route('admin.role.show', $role->id)}}" class="no-underline hover:underline text-cyan-600">{{ $role->name }}</a>
                             </div>
                         </x-admin.grid.td>
-                        @canany(['role edit', 'role delete'])
+{{--                        @canany(['role edit', 'role delete'])--}}
                         <x-admin.grid.td>
                             <form action="{{ route('admin.role.destroy', $role->id) }}" method="POST">
                                 <div>
@@ -57,7 +57,7 @@
                                 </div>
                             </form>
                         </x-admin.grid.td>
-                        @endcanany
+{{--                        @endcanany--}}
                     </tr>
                     @endforeach
                     @if($roles->isEmpty())

@@ -11,6 +11,9 @@ Route::group([
     Route::post('dashboard_search', 'UserController@dashboard_search')->name('dashboard_search');
     Route::resource('user', 'UserController');
     Route::resource('form_calc', 'CalcController');
+    Route::get('form_calc/regenerate-pdf/{id}', 'CalcController@regeneratePdf')->name('regenerate_pdf');
+
+    Route::get('/test', 'TestController@index');
     Route::resource('role', 'RoleController');
     Route::resource('permission', 'PermissionController');
     Route::resource('menu', 'MenuController')->except([

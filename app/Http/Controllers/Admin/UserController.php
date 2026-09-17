@@ -59,7 +59,7 @@ class UserController extends Controller
     {
         $requests = (new ApiRequest)->newQuery();
 
-        
+
         if ($req->has('search') && !empty($req->post('search'))) {
         $searchTerm = $req->post('search');
         $requests->where('name', 'like', '%' . $searchTerm . '%');
@@ -92,7 +92,7 @@ class UserController extends Controller
     {
         $query = (new ApiRequest)->newQuery();
 
-        
+
 
         if ($request->has('search') && !empty($request->post('search'))) {
         $searchTerm = $request->post('search');
@@ -101,10 +101,10 @@ class UserController extends Controller
 
         // Получение данных
         //$requests = $query->get();
-    
+
             $requests = $query->paginate(config('admin.paginate.per_page'))
                 ->onEachSide(config('admin.paginate.each_side'));
-    
+
             return view('admin.dashboard', compact('requests'));
         }
 

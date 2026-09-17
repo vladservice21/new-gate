@@ -72,6 +72,7 @@
                                 {{ $request->id }}
                                 <a href="{{route('viewpdf', $request->id)}}" class="no-underline hover:underline text-cyan-600">site</a>
                                 <a href="{{$request->google_file_link}}" class="no-underline hover:underline text-cyan-600">google</a>
+                                <a href="{{route('admin.regenerate_pdf', $request->id)}}" class="no-underline hover:underline text-cyan-600" style="color: red; line-height: 41px;">regenerate</a>
                             </div>
                         </x-admin.grid.td>
                         <x-admin.grid.td>

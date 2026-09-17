@@ -11,10 +11,10 @@ class CategoryTypeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:category.type list', ['only' => ['index']]);
-        $this->middleware('can:category.type create', ['only' => ['create', 'store']]);
-        $this->middleware('can:category.type edit', ['only' => ['edit', 'update']]);
-        $this->middleware('can:category.type delete', ['only' => ['destroy']]);
+//        $this->middleware('can:category.type list', ['only' => ['index']]);
+//        $this->middleware('can:category.type create', ['only' => ['create', 'store']]);
+//        $this->middleware('can:category.type edit', ['only' => ['edit', 'update']]);
+//        $this->middleware('can:category.type delete', ['only' => ['destroy']]);
     }
 
     /**

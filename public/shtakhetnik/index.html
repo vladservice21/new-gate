@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<link rel="preload" href="drawing.png" as="image">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Калькулятор штахетника</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue: #0082c6;
+  --blue-dark: #006aa3;
+  --blue-light: #e8f4fb;
+  --text: #1a1a1a;
+  --text-2: #555;
+  --border: #d0e8f5;
+  --bg: #f5f9fc;
+  --white: #ffffff;
+  --error: #e53935;
+}
+body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* ── Header ── */
+.header {
+  background: var(--white);
+  border-bottom: 3px solid var(--blue);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,130,198,0.08);
+}
+.logo img { height: 48px; display: block; }
+.header-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--blue);
+  text-align: right;
+  line-height: 1.3;
+}
+.header-title span { display: block; font-size: 12px; color: var(--text-2); font-weight: 400; }
+
+/* ── Main layout ── */
+.main { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+
+/* ── Step cards ── */
+.steps { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.step {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  flex: 1 1 280px;
+  box-shadow: 0 2px 8px rgba(0,130,198,0.06);
+}
+.step.active { border-color: var(--blue); box-shadow: 0 2px 16px rgba(0,130,198,0.15); }
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--blue); color: #fff; font-size: 13px; font-weight: 700;
+  margin-bottom: 10px;
+}
+.step h3 { font-size: 14px; color: var(--text); margin-bottom: 14px; }
+
+/* ── Inputs ── */
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 12px; color: var(--text-2); margin-bottom: 4px; font-weight: 500; }
+.field-row { display: flex; align-items: center; gap: 8px; }
+input[type=number] {
+  width: 100%; padding: 8px 12px; font-size: 15px; font-weight: 600;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  color: var(--text); background: #fff; outline: none;
+  transition: border .2s;
+}
+input[type=number]:focus { border-color: var(--blue); }
+input[type=number].error { border-color: var(--error); }
+.unit { font-size: 12px; color: var(--text-2); white-space: nowrap; }
+.hint { font-size: 11px; color: var(--text-2); margin-top: 3px; }
+.hint.err { color: var(--error); }
+
+/* ── Sliders ── */
+input[type=range] {
+  width: 100%; accent-color: var(--blue); cursor: pointer; height: 4px;
+}
+.slider-row { display: flex; justify-content: space-between; font-size: 11px; color: #999; margin-top: 3px; }
+
+/* ── Color buttons ── */
+.color-opts { display: flex; gap: 10px; margin-top: 6px; }
+.color-opt {
+  flex: 1; padding: 10px 8px; border-radius: 8px; cursor: pointer;
+  border: 2px solid var(--border); text-align: center;
+  transition: all .15s; background: #fff;
+}
+.color-opt:hover { border-color: var(--blue); }
+.color-opt.active { border-color: var(--blue); background: var(--blue-light); }
+.color-swatch { width: 36px; height: 36px; border-radius: 6px; margin: 0 auto 6px; border: 1px solid rgba(0,0,0,0.12); }
+.color-opt .ral { font-size: 11px; font-weight: 700; color: var(--text); }
+.color-opt .name { font-size: 10px; color: var(--text-2); }
+
+/* ── Calc button ── */
+.btn-calc {
+  width: 100%; padding: 12px; margin-top: 4px;
+  background: var(--blue); color: #fff; border: none;
+  border-radius: 8px; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: background .15s;
+}
+.btn-calc:hover { background: var(--blue-dark); }
+.btn-calc:disabled { background: #b0cfe8; cursor: default; }
+.btn-pdf {
+  width: 100%; padding: 10px; margin-top: 8px;
+  background: #fff; color: var(--blue); border: 2px solid var(--blue);
+  border-radius: 8px; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: all .15s; display: none;
+}
+.btn-pdf:hover { background: var(--blue-light); }
+
+/* ── Stats bar ── */
+.stats {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 14px 20px;
+  display: flex; gap: 0; flex-wrap: wrap; margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0,130,198,0.06);
+}
+.stat {
+  flex: 1 1 120px; text-align: center;
+  padding: 8px 12px; border-right: 1px solid var(--border);
+}
+.stat:last-child { border-right: none; }
+.stat-val { font-size: 22px; font-weight: 700; color: var(--blue); line-height: 1; }
+.stat-lbl { font-size: 11px; color: var(--text-2); margin-top: 4px; }
+
+/* ── Canvas ── */
+.canvas-wrap {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,130,198,0.06);
+  overflow-x: auto; text-align: center;
+}
+canvas { max-width: 100%; display: inline-block; border-radius: 6px; }
+.canvas-placeholder {
+  height: 200px; display: flex; align-items: center; justify-content: center;
+  color: var(--text-2); font-size: 14px;
+  border: 2px dashed var(--border); border-radius: 8px;
+}
+
+.footer {
+  text-align: center; padding: 16px; font-size: 11px; color: #aaa; margin-top: 16px;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-title">
+    Калькулятор штахетника
+    <span>Відкатні ворота — індивідуальний підбір</span>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- Step cards -->
+  <div class="steps">
+
+    <!-- Step 1: Dimensions -->
+    <div class="step active" id="step1">
+      <div class="step-num">1</div>
+      <h3>Внутрішній розмір конструкції</h3>
+
+      <div class="field">
+        <label>Ширина</label>
+        <div class="field-row">
+          <input type="number" id="width" value="4000" min="3000" max="6000" step="50">
+          <span class="unit">мм</span>
+        </div>
+        <div class="hint" id="widthHint">Допустимо: 3000 – 6000 мм</div>
+      </div>
+
+      <div class="field">
+        <label>Висота воріт</label>
+        <div class="field-row">
+          <input type="number" id="height" value="1800" min="1500" max="2500" step="50">
+          <span class="unit">мм</span>
+        </div>
+        <div class="hint" id="heightHint">Допустимо: 1500 – 2500 мм</div>
+      </div>
+    </div>
+
+    <!-- Step 2: Слат settings -->
+    <div class="step" id="step2">
+      <div class="step-num">2</div>
+      <h3>Параметри штахетника</h3>
+
+      <div class="field">
+        <label>Тип штахету</label>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <label style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 10px;
+            border:1.5px solid var(--blue);border-radius:8px;cursor:pointer;
+            background:var(--blue-light);font-size:13px;font-weight:600;" id="slatOpt116">
+            <input type="radio" name="slatType" value="116" checked
+              onchange="curSlatW=116;updateSlatOpts();if(calculated)calculate();">
+            Напівкруглий <span style="color:#888;font-weight:400;">116 мм</span>
+          </label>
+          <label style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 10px;
+            border:1.5px solid var(--border);border-radius:8px;cursor:pointer;
+            background:#fff;font-size:13px;font-weight:600;" id="slatOpt110">
+            <input type="radio" name="slatType" value="110"
+              onchange="curSlatW=110;updateSlatOpts();if(calculated)calculate();">
+            Прямокутний <span style="color:#888;font-weight:400;">110 мм</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Кількість рядів</label>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <label style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 10px;
+            border:1.5px solid var(--blue);border-radius:8px;cursor:pointer;
+            background:var(--blue-light);font-size:13px;font-weight:600;" id="rowOpt1">
+            <input type="radio" name="rowCount" value="1" checked
+              onchange="curRows=1;updateRowOpts();if(calculated)calculate();">
+            Один ряд
+          </label>
+          <label style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 10px;
+            border:1.5px solid var(--border);border-radius:8px;cursor:pointer;
+            background:#fff;font-size:13px;font-weight:600;" id="rowOpt2">
+            <input type="radio" name="rowCount" value="2"
+              onchange="curRows=2;updateRowOpts();if(calculated)calculate();">
+            Два ряди
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Просвіт між планками: <strong id="gapVal">15</strong> мм</label>
+        <input type="range" id="gap" min="5" max="60" value="15"
+          oninput="document.getElementById('gapVal').textContent=this.value; updateSlider(this); if(calculated) calculate();">
+        <div class="slider-row"><span>5 мм</span><span>60 мм</span></div>
+      </div>
+
+      <div class="field">
+        <label>Зазор між каркасом та штахетом: <strong id="clearanceVal">10</strong> мм
+          <span style="font-size:11px;color:#999;font-weight:400;">(з кожного боку)</span>
+        </label>
+        <input type="range" id="clearance" min="0" max="10" value="10"
+          oninput="document.getElementById('clearanceVal').textContent=this.value; if(calculated) calculate();">
+        <div class="slider-row"><span>0 мм</span><span>10 мм</span></div>
+      </div>
+
+      <div class="field">
+        <label>Колір RAL</label>
+        <div class="color-opts">
+          <div class="color-opt active" data-color="8019" onclick="setColor('8019',this)">
+            <div class="color-swatch" style="background:#433B38;"></div>
+            <div class="ral">RAL 8019</div>
+            <div class="name">Сіро-коричневий</div>
+          </div>
+          <div class="color-opt" data-color="7024" onclick="setColor('7024',this)">
+            <div class="color-swatch" style="background:#474A51;"></div>
+            <div class="ral">RAL 7024</div>
+            <div class="name">Графітово-сірий</div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <!-- Step 3: Action -->
+    <div class="step" id="step3">
+      <div class="step-num">3</div>
+      <h3>Результат</h3>
+      <p style="font-size:12px;color:var(--text-2);margin-bottom:14px;">
+        Введіть розміри та налаштуйте параметри — чертіж оновиться автоматично.
+      </p>
+      <button class="btn-calc" onclick="calculate()">▶ Розрахувати</button>
+      <button class="btn-pdf" id="pdfBtn" onclick="downloadPDF()">⬇ Завантажити PDF</button>
+    </div>
+
+  </div>
+
+  <!-- Stats -->
+  <div class="stats" id="statsBar" style="display:none;">
+    <div class="stat"><div class="stat-val" id="stCount">—</div><div class="stat-lbl">Планок, шт</div></div>
+    <div class="stat" style="background:var(--blue-light);border-radius:8px;"><div class="stat-val" id="stPogon" style="font-size:26px;">—</div><div class="stat-lbl" style="font-weight:600;color:var(--blue);">Погонних метрів</div></div>
+    <div class="stat"><div class="stat-val" id="stGap">—</div><div class="stat-lbl">Просвіт, мм</div></div>
+    <div class="stat"><div class="stat-val" id="stStep">—</div><div class="stat-lbl">Крок, мм</div></div>
+    <div class="stat"><div class="stat-val" id="stColor">—</div><div class="stat-lbl">Колір RAL</div></div>
+  </div>
+
+  <!-- Canvas -->
+  <div class="canvas-wrap">
+    <div class="canvas-placeholder" id="placeholder">
+      ← Введіть розміри та натисніть «Розрахувати»
+    </div>
+    <div id="loadingMsg" style="display:none;text-align:center;padding:20px;color:#0082c6;font-size:14px;">⏳ Завантаження чертежу...</div>
+    <canvas id="cv" style="display:none;"></canvas>
+  </div>
+
+</div>
+
+<!-- Hidden source image -->
+<img id="srcImg" src="drawing.png"
+  style="display:none" onload="imgReady=true;">
+
+<script>
+// ── Constants ──────────────────────────────────────────────────────────────
+// Pixel boundaries of inner gate frame in the base drawing (6000×3375px)
+// These are relative to a DEFAULT gate of width=4240mm, height=1570mm
+// We'll scale the штахетник zone proportionally when user changes dimensions.
+const BASE = {
+  imgW: 6000, imgH: 3375,
+  // Exact inner edges of Т-profile shelves (полиця 30мм) — where штахет reaches
+  left: 539, right: 4163, top: 739, bottom: 2281,
+  gateW: 4240, gateH: 1570,
+};
+
+let curSlatW = 116;  // поточна ширина штахету (116 або 110мм)
+let curRows = 1;      // кількість рядів (1 або 2)
+
+const COLORS = {
+  '8019': { fill:[67,59,56],   hi:[110,95,88],  sh:[30,24,22]  },
+  '7024': { fill:[71,74,81],   hi:[115,118,128], sh:[35,37,42]  },
+};
+
+let curColor = '8019';
+let curView  = 'color';
+let imgReady = false;
+// Preload image as soon as page loads
+window.addEventListener('load', () => {
+  const img = document.getElementById('srcImg');
+  if (img.complete) { imgReady = true; }
+  else { img.onload = () => { imgReady = true; }; }
+});
+let calculated = false;
+
+// ── UI interactions ────────────────────────────────────────────────────────
+// gap handled via oninput on element
+
+function updateRowOpts() {
+  const r1 = document.getElementById('rowOpt1');
+  const r2 = document.getElementById('rowOpt2');
+  if (!r1 || !r2) return;
+  r1.style.borderColor = curRows===1 ? 'var(--blue)' : 'var(--border)';
+  r1.style.background  = curRows===1 ? 'var(--blue-light)' : '#fff';
+  r2.style.borderColor = curRows===2 ? 'var(--blue)' : 'var(--border)';
+  r2.style.background  = curRows===2 ? 'var(--blue-light)' : '#fff';
+}
+
+function updateSlatOpts() {
+  const v = curSlatW;
+  const o116 = document.getElementById('slatOpt116');
+  const o110 = document.getElementById('slatOpt110');
+  if (!o116 || !o110) return;
+  o116.style.borderColor = v===116 ? 'var(--blue)' : 'var(--border)';
+  o116.style.background  = v===116 ? 'var(--blue-light)' : '#fff';
+  o110.style.borderColor = v===110 ? 'var(--blue)' : 'var(--border)';
+  o110.style.background  = v===110 ? 'var(--blue-light)' : '#fff';
+}
+
+function setColor(c, btn) {
+  curColor = c;
+  document.querySelectorAll('.color-opt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (calculated) draw();
+}
+
+function setView(v) {
+  curView = v;
+  document.getElementById('btnColor').style.cssText =
+    v==='color' ? 'flex:1;padding:7px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;background:var(--blue);color:#fff;border:none;'
+                : 'flex:1;padding:7px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;background:#fff;color:#1a1a1a;border:1.5px solid #d0e8f5;';
+  document.getElementById('btnTech').style.cssText =
+    v==='tech'  ? 'flex:1;padding:7px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;background:var(--blue);color:#fff;border:none;'
+                : 'flex:1;padding:7px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;background:#fff;color:#1a1a1a;border:1.5px solid #d0e8f5;';
+  if (calculated) draw();
+}
+
+// ── Validation ─────────────────────────────────────────────────────────────
+function validate() {
+  const w = +document.getElementById('width').value;
+  const h = +document.getElementById('height').value;
+  let ok = true;
+
+  const wEl = document.getElementById('width');
+  const wHint = document.getElementById('widthHint');
+  if (w < 3000 || w > 6000) {
+    wEl.classList.add('error');
+    wHint.textContent = '⚠ Допустимо: 3000 – 6000 мм';
+    wHint.classList.add('err');
+    ok = false;
+  } else {
+    wEl.classList.remove('error');
+    wHint.textContent = 'Допустимо: 3000 – 6000 мм';
+    wHint.classList.remove('err');
+  }
+
+  const hEl = document.getElementById('height');
+  const hHint = document.getElementById('heightHint');
+  if (h < 1500 || h > 2500) {
+    hEl.classList.add('error');
+    hHint.textContent = '⚠ Допустимо: 1500 – 2500 мм';
+    hHint.classList.add('err');
+    ok = false;
+  } else {
+    hEl.classList.remove('error');
+    hHint.textContent = 'Допустимо: 1500 – 2500 мм';
+    hHint.classList.remove('err');
+  }
+
+  return ok;
+}
+
+// ── Calculate ──────────────────────────────────────────────────────────────
+function calculate() {
+  if (!validate()) return;
+  if (!imgReady) {
+    document.getElementById('loadingMsg').style.display = 'block';
+    document.getElementById('placeholder').style.display = 'none';
+    setTimeout(() => calculate(), 200);
+    return;
+  }
+  document.getElementById('loadingMsg').style.display = 'none';
+  calculated = true;
+
+  const gap = +document.getElementById('gap').value;
+  const gateW = +document.getElementById('width').value;
+  const gateH = +document.getElementById('height').value;
+
+  // Count slats: inner width = gateW - frame (approx 80mm each side = 160mm total)
+  // Т-профіль: рама 40мм × 2 = -80мм (тіло рами), полиця 30мм не рахується тут
+  // Штахет заповнює 3920мм (для 4000мм воріт), перший і останній заходять на полицю
+  const fillW_mm = gateW - 80;
+  const fullCount = Math.floor(fillW_mm / (curSlatW + gap));
+  const rawRem = fillW_mm % (curSlatW + gap);
+  const count = fullCount + (rawRem >= curSlatW ? 1 : 0);
+
+  // Погонні метри = кількість планок × висота планки (висота воріт - 80мм рама - 10мм похибка)
+  const clearance = +document.getElementById('clearance').value;
+  const slatH = (gateH - 80 - clearance * 2) / 1000;
+  const pogon = (count * slatH).toFixed(2);
+
+  document.getElementById('statsBar').style.display = 'flex';
+  document.getElementById('pdfBtn').style.display = 'block';
+  document.getElementById('stCount').textContent  = count;
+  document.getElementById('stPogon').textContent  = pogon + ' м';
+  document.getElementById('stGap').textContent    = gap;
+  document.getElementById('stStep').textContent   = curSlatW + gap;
+  document.getElementById('stColor').textContent  = 'RAL ' + curColor;
+
+  draw();
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.arcTo(x + w, y, x + w, y + r, r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+  ctx.lineTo(x + r, y + h);
+  ctx.arcTo(x, y + h, x, y + h - r, r);
+  ctx.lineTo(x, y + r);
+  ctx.arcTo(x, y, x + r, y, r);
+  ctx.closePath();
+}
+
+function drawSlat(ctx, x1, x2, top, h, col) {
+  const w = x2 - x1;
+  if (w <= 0) return;
+  const [fr,fg,fb] = col.fill;
+  const [hr,hg,hb] = col.hi;
+  const [sr,sg,sb] = col.sh;
+
+  ctx.fillStyle = `rgb(${fr},${fg},${fb})`;
+  ctx.fillRect(x1, top, w, h);
+
+  const gL = ctx.createLinearGradient(x1, 0, x1 + Math.min(w*0.5, 10), 0);
+  gL.addColorStop(0, `rgba(${hr},${hg},${hb},0.55)`);
+  gL.addColorStop(1, `rgba(${hr},${hg},${hb},0.0)`);
+  ctx.fillStyle = gL;
+  ctx.fillRect(x1, top, w, h);
+
+  const gR = ctx.createLinearGradient(x2 - Math.min(w*0.4, 7), 0, x2, 0);
+  gR.addColorStop(0, `rgba(${sr},${sg},${sb},0.0)`);
+  gR.addColorStop(1, `rgba(${sr},${sg},${sb},0.5)`);
+  ctx.fillStyle = gR;
+  ctx.fillRect(x1, top, w, h);
+
+  ctx.strokeStyle = `rgb(${sr},${sg},${sb})`;
+  ctx.lineWidth = 0.5;
+  ctx.strokeRect(x1+0.5, top+0.5, w-1, h-1);
+}
+
+// ── Draw ───────────────────────────────────────────────────────────────────
+function draw() {
+  const imgEl = document.getElementById('srcImg');
+  const gap   = +document.getElementById('gap').value;
+  const gateW = +document.getElementById('width').value;
+  const gateH = +document.getElementById('height').value;
+
+  const cv  = document.getElementById('cv');
+  const ctx = cv.getContext('2d');
+  cv.width  = BASE.imgW;
+  cv.height = BASE.imgH;
+
+  // Draw base image
+  ctx.drawImage(imgEl, 0, 0);
+
+  // The pixel zone scales with gate dimensions:
+  // Scale pixel zone proportionally to match user's gate size vs base drawing
+  // Base drawing inner zone: left=574,right=4128,top=774,bottom=2244
+  // represents gateW=4240mm, gateH=1570mm
+  // For user's gate, we still draw штахетник inside the same pixel zone
+  // but the scale (mm per pixel) changes
+
+  const innerW_px = BASE.right - BASE.left;
+  const innerH_px = BASE.bottom - BASE.top;
+
+  // Effective inner gate width in mm (subtract frame ~160mm)
+  // Pixel zone = between inner edges of T-profile shelves = gateW - 80mm (frame bodies)
+  // But штахет fills gateW - 20mm (including 30mm shelf overlap each side)
+  const innerW_mm = gateW - 80;
+  const scaleH = innerW_mm / innerW_px;  // mm per px
+
+  const pitchPx = (curSlatW + gap) / scaleH;
+  const slatPx  = curSlatW / scaleH;
+  const col     = COLORS[curColor];
+
+  let x     = BASE.left;
+  let count = 0;
+  let trimmedW_mm = 0;  // width of trimmed last slat (0 = no trim)
+  const h   = innerH_px;
+  const MIN_TRIM_MM = 20;
+
+  // Calculate trimmed last slat
+  const effectiveW_mm = gateW - 80;  // простір між тілами рам
+  const raw_rem = effectiveW_mm % (curSlatW + gap);
+  // Якщо залишок > ширини штахету → ще одна повна планка вміщається
+  // Наприклад: залишок 131мм при штахеті 110мм → +1 повна, залишок 21мм
+  const fullBonus = raw_rem >= curSlatW ? 1 : 0;
+  const remainder_mm = raw_rem >= curSlatW ? raw_rem - curSlatW : raw_rem;
+  const lastSlatW_mm = remainder_mm;
+  const hasTrim = lastSlatW_mm >= MIN_TRIM_MM;
+
+  // Clip to gate zone
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(BASE.left, BASE.top, innerW_px, innerH_px);
+  ctx.clip();
+
+  // ── Draw second row FIRST (behind first row) ───────────────────────────
+  let row2LabelData = null;
+  if (curRows === 2) {
+    const col2 = COLORS[curColor];
+    const [fr2,fg2,fb2] = col2.fill;
+    const [sr2,sg2,sb2] = col2.sh;
+    const dr = Math.round(fr2*0.5), dg = Math.round(fg2*0.5), db = Math.round(fb2*0.5);
+    const dsr = Math.round(sr2*0.5), dsg = Math.round(sg2*0.5), dsb = Math.round(sb2*0.5);
+    const offsetPx = pitchPx / 2;
+
+    // Calculate second row remainder
+    const fillW2_mm = gateW - 80;
+    const offset_mm = (curSlatW + gap) / 2;
+    const availW2_mm = fillW2_mm - offset_mm;
+    const raw_rem2 = availW2_mm % (curSlatW + gap);
+    const fullBonus2 = raw_rem2 >= curSlatW ? 1 : 0;
+    const rem2 = raw_rem2 >= curSlatW ? raw_rem2 - curSlatW : raw_rem2;
+    const hasTrim2 = rem2 >= MIN_TRIM_MM;
+
+    let x2r = BASE.left + offsetPx;
+    while (true) {
+      const rx1 = Math.round(x2r);
+      const rx2 = Math.round(x2r + slatPx);
+      if (hasTrim2 && rx2 > BASE.right) break;
+      if (!hasTrim2 && rx2 > BASE.right + 0.5) break;
+      const rw = Math.min(rx2, BASE.right) - rx1;
+      if (rx1 >= BASE.left && rw > 0) {
+        ctx.fillStyle = `rgb(${dr},${dg},${db})`;
+        ctx.fillRect(rx1, BASE.top, rw, innerH_px);
+        const gR2 = ctx.createLinearGradient(rx2-Math.min(rw*0.4,7),0,rx2,0);
+        gR2.addColorStop(0,`rgba(${dsr},${dsg},${dsb},0)`);
+        gR2.addColorStop(1,`rgba(${dsr},${dsg},${dsb},0.5)`);
+        ctx.fillStyle = gR2; ctx.fillRect(rx1,BASE.top,rw,innerH_px);
+        ctx.strokeStyle=`rgb(${dsr},${dsg},${dsb})`; ctx.lineWidth=0.5;
+        ctx.strokeRect(rx1+0.5,BASE.top+0.5,rw-1,innerH_px-1);
+      }
+      x2r += pitchPx;
+    }
+
+    // Trimmed last slat of second row
+    if (hasTrim2) {
+      const trim2Px = Math.round(rem2 / scaleH);
+      const tx1 = Math.round(x2r);
+      const tx2 = Math.min(tx1 + trim2Px, BASE.right);
+      const tw2 = tx2 - tx1;
+      if (tw2 > 0) {
+        ctx.fillStyle = `rgb(${dr},${dg},${db})`;
+        ctx.fillRect(tx1, BASE.top, tw2, innerH_px);
+        ctx.strokeStyle=`rgb(${dsr},${dsg},${dsb})`; ctx.lineWidth=0.5;
+        ctx.strokeRect(tx1+0.5,BASE.top+0.5,tw2-1,innerH_px-1);
+      }
+    }
+
+    // Save second row label data for drawing AFTER first row
+    row2LabelData = { hasTrim2, rem2, x2r, dr, dg, db, dsr, dsg, dsb, scaleH };
+  }
+
+  // Draw full slats (first row — on top)
+  while (x + slatPx <= BASE.right - (hasTrim ? 0 : 0) + 0.5) {
+    const x1 = Math.round(x);
+    const x2 = Math.round(x + slatPx);
+
+    // Stop if this would be the trimmed position
+    if (hasTrim && x2 > BASE.right) break;
+    if (!hasTrim && x2 > BASE.right + 0.5) break;
+
+    drawSlat(ctx, x1, x2, BASE.top, h, col);
+    x += pitchPx;
+    count++;
+  }
+
+  // Show remaining gap — don't draw slat, just show label like on photo
+  if (!hasTrim && rem > 0) {
+    const gapRemPx = Math.round(rem / scaleH);
+    const gapX1 = Math.round(x);
+    const gapX2 = Math.min(gapX1 + gapRemPx, BASE.right);
+    if (gapX1 < BASE.right && gapX2 - gapX1 > 0) {
+      // Don't draw штахет — show grey "зазор" label
+      const labelX = gapX1 + (gapX2 - gapX1) / 2;
+      const labelY = BASE.top + innerH_px / 2;
+      const fontSize = Math.max(40, Math.round(innerH_px * 0.12));
+      ctx.save();
+      ctx.font = `bold ${fontSize}px Arial`;
+      const txt = 'зазор: ' + rem + ' мм';
+      const tw = ctx.measureText(txt).width;
+      const pad = fontSize * 0.4;
+      const rh = fontSize * 1.3;
+      const rx = labelX - tw/2 - pad;
+      const ry = labelY - rh/2;
+      // Grey pill
+      ctx.fillStyle = 'rgba(255,255,255,0.95)';
+      roundRect(ctx, rx, ry, tw + pad*2, rh, rh*0.3); ctx.fill();
+      ctx.strokeStyle = '#9ca3af'; ctx.lineWidth = 3;
+      roundRect(ctx, rx, ry, tw + pad*2, rh, rh*0.3); ctx.stroke();
+      ctx.fillStyle = '#6b7280';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(txt, labelX, labelY);
+      ctx.restore();
+    }
+  }
+
+  // Draw trimmed last slat if it fits
+  if (hasTrim) {
+    const trimPx = Math.round(lastSlatW_mm / scaleH);
+    const x1 = Math.round(x);
+    const x2 = Math.min(x1 + trimPx, BASE.right);
+    if (x1 < BASE.right && x2 - x1 > 0) {
+      drawSlat(ctx, x1, x2, BASE.top, h, col);
+      trimmedW_mm = Math.round(lastSlatW_mm);
+      count++;  // trimmed slat counts too
+
+      // Draw dimension label on trimmed slat
+      const labelX = x1 + (x2 - x1) / 2;
+      const labelY = BASE.top + h / 2;
+      const fontSize = Math.max(40, Math.round(h * 0.12));
+      ctx.restore(); // restore clip to draw text
+      ctx.save();
+
+      // White background pill
+      ctx.font = `bold ${fontSize}px Arial`;
+      const txt = trimmedW_mm + ' мм';
+      const tw  = ctx.measureText(txt).width;
+      const pad = fontSize * 0.4;
+      const rh  = fontSize * 1.3;
+      const rx  = labelX - tw/2 - pad;
+      const ry  = labelY - rh/2;
+      ctx.fillStyle = 'rgba(255,255,255,0.92)';
+      roundRect(ctx, rx, ry, tw + pad*2, rh, rh*0.3);
+      ctx.fill();
+
+      // Blue border
+      ctx.strokeStyle = '#0082c6';
+      ctx.lineWidth = 3;
+      roundRect(ctx, rx, ry, tw + pad*2, rh, rh*0.3);
+      ctx.stroke();
+
+      // Text
+      ctx.fillStyle = '#0082c6';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(txt, labelX, labelY);
+
+      // Arrow pointing down to slat
+      ctx.strokeStyle = '#0082c6';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(labelX, labelY + rh/2 + 5);
+      ctx.lineTo(labelX, BASE.bottom - h*0.08);
+      ctx.stroke();
+      // Arrowhead
+      ctx.beginPath();
+      ctx.moveTo(labelX - fontSize*0.3, BASE.bottom - h*0.08 - fontSize*0.4);
+      ctx.lineTo(labelX, BASE.bottom - h*0.08);
+      ctx.lineTo(labelX + fontSize*0.3, BASE.bottom - h*0.08 - fontSize*0.4);
+      ctx.stroke();
+    }
+  }
+
+  ctx.restore();
+
+  // ── Draw second row label ON TOP of everything ───────────────────────────
+  if (row2LabelData) {
+    const { hasTrim2, rem2, x2r, dr, dg, db, dsr, dsg, dsb } = row2LabelData;
+    const labelRow2Y = BASE.top + innerH_px * 0.68;
+    const fs2 = Math.max(36, Math.round(innerH_px * 0.10));
+    const trim2Px = Math.round(rem2 / scaleH);
+    const tx1 = Math.round(x2r);
+    const tx2 = Math.min(tx1 + trim2Px, BASE.right);
+    const lx = tx1 + (tx2 - tx1) / 2;
+
+    if (rem2 > 0) {
+      const txt2 = hasTrim2 ? Math.round(rem2) + ' мм' : 'не доходить: ' + Math.round(rem2) + ' мм';
+      ctx.save();
+      ctx.font = `bold ${fs2}px Arial`;
+      const tw = ctx.measureText(txt2).width;
+      const pad = fs2*0.4, rh2 = fs2*1.3;
+      const rx = lx-tw/2-pad, ry = labelRow2Y-rh2/2;
+      ctx.fillStyle='rgba(255,255,255,0.95)';
+      roundRect(ctx,rx,ry,tw+pad*2,rh2,rh2*0.3); ctx.fill();
+      ctx.strokeStyle = hasTrim2 ? `rgb(${dsr},${dsg},${dsb})` : '#9ca3af';
+      ctx.lineWidth=2;
+      roundRect(ctx,rx,ry,tw+pad*2,rh2,rh2*0.3); ctx.stroke();
+      ctx.fillStyle = hasTrim2 ? `rgb(${dr},${dg},${db})` : '#6b7280';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(txt2,lx,labelRow2Y);
+      ctx.restore();
+    }
+  }
+
+  // Update stats
+  const gateH2 = +document.getElementById('height').value;
+  // Погонні метри: повні планки × висота + обрізана (якщо є) × висота
+  const clearance2 = +document.getElementById('clearance').value;
+  const slatH2 = (gateH2 - 80 - clearance2 * 2) / 1000;
+  const pogon2 = (count * slatH2 * curRows).toFixed(2);
+  const rowLabel = curRows === 2 ? ' × 2 ряди' : '';
+  document.getElementById('stCount').textContent = count + (hasTrim && trimmedW_mm > 0 ? ' (остання обрізана)' : '') + rowLabel;
+  document.getElementById('stPogon').textContent = pogon2 + ' м';
+  document.getElementById('stGap').textContent   = gap;
+  document.getElementById('stStep').textContent  = curSlatW + gap;
+
+  document.getElementById('placeholder').style.display = 'none';
+  cv.style.display = 'inline-block';
+}
+
+// Live update on input change
+['width','height','clearance'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    if (calculated) { validate(); draw(); updateStats(); }
+  });
+});
+
+function updateStats() {
+  const gap = +document.getElementById('gap').value;
+  const gateW = +document.getElementById('width').value;
+  const gateH = +document.getElementById('height').value;
+  // Т-профіль correction
+  const fillW_mm2 = gateW - 80;
+  const fullCount2 = Math.floor(fillW_mm2 / (curSlatW + gap));
+  const rawRem2 = fillW_mm2 % (curSlatW + gap);
+  const count = fullCount2 + (rawRem2 >= curSlatW ? 1 : 0);
+  const clearance3 = +document.getElementById('clearance').value;
+  const slatH3 = (gateH - 80 - clearance3 * 2) / 1000;
+  const pogon = (count * slatH3 * curRows).toFixed(2);
+  document.getElementById('stCount').textContent  = count;
+  document.getElementById('stPogon').textContent  = pogon + ' м';
+  document.getElementById('stColor').textContent  = 'RAL ' + curColor;
+}
+
+// ── PDF Export ─────────────────────────────────────────────────────────────
+function downloadPDF() {
+  const btn = document.getElementById('pdfBtn');
+  btn.textContent = '⏳ Генерую PDF...';
+  btn.disabled = true;
+
+  const gateW     = document.getElementById('width').value;
+  const gateH     = document.getElementById('height').value;
+  const gap       = document.getElementById('gap').value;
+  const clearance = document.getElementById('clearance').value;
+  const slatType  = curSlatW === 116 ? 'Напівкруглий 116 мм' : 'Прямокутний 110 мм';
+  const color     = document.querySelector('.color-opt.active .ral')?.textContent || '';
+  const statsEl   = document.getElementById('statsBar');
+  const canvas    = document.getElementById('cv');
+  const canvasImg = canvas.toDataURL('image/jpeg', 0.95);
+  const filename  = `shtakhetnik_${gateW}x${gateH}mm.pdf`;
+
+  const pdfDiv = document.createElement('div');
+  pdfDiv.style.cssText = 'font-family:Arial,sans-serif;background:#fff;width:277mm;padding:0;';
+
+  pdfDiv.innerHTML = `
+    <!-- ONE PAGE: header + params + stats + drawing -->
+    <div style="padding:12px;">
+      <!-- Header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;
+        border-bottom:3px solid #0082c6;padding-bottom:8px;margin-bottom:12px;">
+        <div>
+          
+          
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:12px;font-weight:700;color:#333;">Калькулятор штахетника</div>
+          <div style="font-size:10px;color:#888;">Каркасні відкатні ворота</div>
+        </div>
+      </div>
+
+      <!-- Params -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;font-size:11px;">
+        <div style="padding:6px 10px;border:1px solid #d0e8f5;border-radius:6px;">
+          <div style="color:#888;margin-bottom:1px;">Ширина</div>
+          <div style="font-size:14px;font-weight:700;color:#0082c6;">${gateW} мм</div>
+        </div>
+        <div style="padding:6px 10px;border:1px solid #d0e8f5;border-radius:6px;">
+          <div style="color:#888;margin-bottom:1px;">Висота</div>
+          <div style="font-size:14px;font-weight:700;color:#0082c6;">${gateH} мм</div>
+        </div>
+        <div style="padding:6px 10px;border:1px solid #d0e8f5;border-radius:6px;">
+          <div style="color:#888;margin-bottom:1px;">Тип штахету</div>
+          <div style="font-size:13px;font-weight:700;color:#0082c6;">${slatType}</div>
+        </div>
+        <div style="padding:6px 10px;border:1px solid #d0e8f5;border-radius:6px;">
+          <div style="color:#888;margin-bottom:1px;">Просвіт між планками</div>
+          <div style="font-size:14px;font-weight:700;color:#0082c6;">${gap} мм</div>
+        </div>
+        <div style="padding:6px 10px;border:1px solid #d0e8f5;border-radius:6px;">
+          <div style="color:#888;margin-bottom:1px;">Зазор (з кожного боку)</div>
+          <div style="font-size:14px;font-weight:700;color:#0082c6;">${clearance} мм</div>
+        </div>
+        <div style="padding:6px 10px;border:1px solid #d0e8f5;border-radius:6px;">
+          <div style="color:#888;margin-bottom:1px;">Колір</div>
+          <div style="font-size:14px;font-weight:700;color:#0082c6;">${color}</div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+        ${Array.from(statsEl.querySelectorAll('.stat')).map(s => `
+          <div style="flex:1;min-width:80px;text-align:center;padding:8px 6px;
+            border:1px solid #d0e8f5;border-radius:6px;background:#fff;">
+            <div style="font-size:18px;font-weight:700;color:#0082c6;">${s.querySelector('.stat-val').textContent}</div>
+            <div style="font-size:9px;color:#555;margin-top:2px;">${s.querySelector('.stat-lbl').textContent}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Drawing -->
+      <img src="${canvasImg}" style="width:100%;border-radius:6px;border:1px solid #e5e7eb;">
+      
+    </div>
+  `;
+
+  document.body.appendChild(pdfDiv);
+
+  const opt = {
+    margin:      [0, 0, 0, 0],
+    filename:    filename,
+    image:       { type: 'jpeg', quality: 0.95 },
+    html2canvas: { scale: 2, useCORS: true, logging: false },
+    jsPDF:       { unit: 'mm', format: 'a4', orientation: 'landscape' }
+  };
+
+  html2pdf().set(opt).from(pdfDiv).save().then(() => {
+    document.body.removeChild(pdfDiv);
+    btn.textContent = '⬇ Завантажити PDF';
+    btn.disabled = false;
+  });
+}
+
+</script>
+</body>
+</html>

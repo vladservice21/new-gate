@@ -8,6 +8,7 @@
 .env
 .env.backup
 .phpunit.result.cache
+.php82-nodejs16
 docker-compose.override.yml
 Homestead.json
 Homestead.yaml
@@ -15,3 +16,8 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+/.config
+/.local
+public/cronlogfile.log
+public/logfile.log
+public/adminer-5.3.0.php
