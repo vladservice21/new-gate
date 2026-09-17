@@ -145,6 +145,34 @@
 
 {{--<link rel='stylesheet' href='https://drawing.holygrail.com.ua/bast_form.css' type='text/css' media='all' />--}}
 <style>
+    @media print {
+        body {
+            background: #fff !important;
+        }
+
+        #pf4 {
+            overflow: clip !important;
+            overflow-clip-margin: 1200px;
+        }
+    }
+
+    #pf4::after {
+        content: "* нащільники не входять в комплект, а містяться тут для інформування який Вам треба розмір\A** деталі, котрі під кутом, можуть відрізнятися за довжиною і корегуються майстром при фінальній збірці до відправки";
+        position: absolute;
+        top: calc(100% + 435px);
+        left: -250px;
+        z-index: 1000;
+        width: 720px;
+        box-sizing: border-box;
+        color: #000;
+        font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        font-style: italic;
+        font-weight: 400;
+        line-height: 1.35;
+        text-align: left;
+        white-space: pre-wrap;
+    }
 
     /*===BAST FORM===*/
 
